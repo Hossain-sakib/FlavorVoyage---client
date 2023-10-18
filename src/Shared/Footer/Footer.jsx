@@ -3,7 +3,7 @@
 const Footer = () => {
     return (
         <div>
-            <footer className="footer footer-center p-10 bg-lime-100 text-base-content  border-2 border-lime-500">
+            <footer className="footer footer-center p-10 rounded text-base-content  border-2 border-lime-500">
                 <nav className="grid grid-flow-col gap-4">
                     <a className="link link-hover">About us</a>
                     <a className="link link-hover">Contact</a>
@@ -18,7 +18,7 @@ const Footer = () => {
                     </div>
                 </nav>
                 <aside>
-                    <p>Copyright © 2023 - All right reserved by FLAVOR VOYAGE Ltd</p>
+                    <p>Copyright © 2023 - All right reserved by FLAVOR VOYAGE Ltd.</p>
                 </aside>
             </footer>
         </div>
