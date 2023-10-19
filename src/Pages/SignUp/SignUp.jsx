@@ -13,11 +13,11 @@ const SignUp = () => {
     const handleSignUp = e => {
         e.preventDefault();
 
-        const form = new FormData(e.currentTarget);
-        const name = form.get('name');
-        const image = form.get('image');
-        const email = form.get('email');
-        const password = form.get('password');
+        const form = e.target;
+        const name = form.name.value;
+        const image = form.image.value;
+        const email = form.email.value;
+        const password = form.password.value;
 
         if (password.length < 6) {
             setSignUpError('Password should be at least 6 characters.');
@@ -86,7 +86,7 @@ const SignUp = () => {
                                 <input type="password" placeholder="password" className="input input-bordered" name="password" required />
                             </div>
                             <div className="form-control mt-6">
-                                <button type="submit" className="btn text-white bg-lime-600 hover:bg-lime-500">Sign In</button>
+                                <button type="submit" className="btn text-white bg-lime-600 hover:bg-lime-500">Sign Up</button>
                             </div>
                         </form>
                         {

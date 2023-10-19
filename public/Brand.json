@@ -1,7 +1,7 @@
 [
     {
       "id":1,
-      "name": "The Coca-Cola",
+      "name": "Coca-Cola",
       "image": "https://i.ibb.co/C9xQb8R/products-coca-cola-logo-wallpaper-preview.jpg"
     },
     {
@@ -11,22 +11,22 @@
     },
     {
       "id":3,
-      "name": "Pran Ltd.",
+      "name": "Pran",
       "image": "https://i.ibb.co/ZgXcqB5/pran-group-vector-logo.jpg"
     },
     {
       "id":4,
-      "name": "Partex Beverage Ltd.",
+      "name": "Partex",
       "image": "https://i.ibb.co/y6Tcs2R/Partex-Beverage-Ltd-logo.jpg"
     },
     {
       "id":5,
-      "name": "Akij Foods And Beverage Ltd.",
+      "name": "AFBL",
       "image": "https://i.ibb.co/bshN7vV/download.png"
     },
     {
       "id":6,
-      "name": "Sajeeb Group Ltd.",
+      "name": "Sajeeb",
       "image": "https://i.ibb.co/TL2QKjt/307677739-594230892495459-6296679996331633057-n.jpg"
     }
   ]

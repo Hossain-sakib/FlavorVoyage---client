@@ -16,7 +16,7 @@ const Banner = () => {
                             <div className="max-w-md">
                                 <h1 className="mb-5 text-lime-200 text-5xl font-bold">Elevate Your Thirst with Sparkling Delights</h1>
                                 <p className="mb-5 text-lime-200">Quench your thirst with the ultimate refreshment. Our selection of sparkling beverages is here to elevate your drinking experience with a burst of effervescence and a world of flavors.</p>
-                                <Link to='/premiumMembership'><button className="btn text-white bg-lime-600 hover:bg-lime-500">Premium Membership</button></Link>
+                                <Link to='/contactUs'><button className="btn text-white bg-lime-600 hover:bg-lime-500">CONTACT US</button></Link>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@ const Banner = () => {
                             <div className="max-w-md">
                                 <h1 className="mb-5 text-lime-200 text-5xl font-bold">  Fizz-tastic Flavors Await You</h1>
                                 <p className="mb-5 text-lime-200"> Dive into a world of effervescence and discover a spectrum of delightful, fizzy flavors that will tantalize your taste buds. Explore the refreshing universe of carbonated beverages.</p>
-                                <Link to='/premiumMembership'><button className="btn text-white bg-lime-600 hover:bg-lime-500">Premium Membership</button></Link>
+                                <Link to='/contactUs'><button className="btn text-white bg-lime-600 hover:bg-lime-500">CONTACT US</button></Link>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ const Banner = () => {
                             <div className="max-w-md">
                                 <h1 className="mb-5 text-lime-200 text-5xl font-bold">  Bubbly Bliss: Dive into the World of Carbonation</h1>
                                 <p className="mb-5 text-lime-200">Experience the pure joy of bubbles as you embark on a journey through our carbonated wonderland. From classic favorites to unique concoctions, we have got the fizzy drinks you will love.</p>
-                                <Link to='/premiumMembership'><button className="btn text-white bg-lime-600 hover:bg-lime-500">Premium Membership</button></Link>
+                                <Link to='/contactUs'><button className="btn text-white bg-lime-600 hover:bg-lime-500">CONTACT US</button></Link>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@ const Banner = () => {
                             <div className="max-w-md">
                                 <h1 className="mb-5 text-lime-200 text-5xl font-bold">  Bubbles of Joy: Your Carbonated Journey Begins</h1>
                                 <p className="mb-5 text-lime-200">Start your adventure with a sip of pure happiness. Our website is your gateway to exploring a world of bubbly, fizzy, and vibrant carbonated drinks that are bound to bring joy to your palate.</p>
-                                <Link to='/premiumMembership'><button className="btn text-white bg-lime-600 hover:bg-lime-500">Premium Membership</button></Link>
+                                <Link to='/contactUs'><button className="btn text-white bg-lime-600 hover:bg-lime-500">CONTACT US</button></Link>
                             </div>
                         </div>
                     </div>

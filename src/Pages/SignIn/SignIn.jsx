@@ -14,9 +14,9 @@ const SignIn = () => {
 
     const handleSignIn = e => {
         e.preventDefault();
-        const form = new FormData(e.currentTarget);
-        const email = form.get('email');
-        const password = form.get('password');
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
         signInUser(email, password)
             .then(res => {
                 navigate(location?.state ? location.state : '/');
@@ -60,7 +60,7 @@ const SignIn = () => {
                                 </label>
                                 <input type="password" placeholder="password" className="input input-bordered" name="password" required />
                                 <label className="label">
-                                    <a className="text-xs text-lime-600 hover:font-medium hover:underline">Forgot password?</a>
+                                    <Link to='/forgotPass'><a className="text-xs text-lime-600 hover:font-medium hover:underline">Forgot password?</a></Link>
                                 </label>
                             </div>
                             <div className="form-control mt-6">
