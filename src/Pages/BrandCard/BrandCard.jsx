@@ -5,18 +5,20 @@ import { Link } from 'react-router-dom';
 
 const BrandCard = ({ brand }) => {
     const { name, image } = brand || {};
-    useEffect(()=>{
-        AOS.init({duration:1000});
-    },[])
+    useEffect(() => {
+        AOS.init({ duration: 1000 });
+    }, [])
     return (
-        <Link to="/brandProduct"><div>
-        <div className="w-72 h-72 card shadow-xl image-full  rounded-xl border-2 border-lime-500" data-aos="fade-up">
-            <figure><img src={image} alt="brand" /></figure>
-            <div className="card-body">
-                <p className="text-xl text-white hover:text-lime-400">{name}</p>
+        <Link to={`/brandProduct/${name}`}>
+            <div>
+                <div className="w-72 h-72 card shadow-xl image-full  rounded-xl border-2 border-lime-500" data-aos="fade-up">
+                    <figure><img src={image} alt="brand" /></figure>
+                    <div className="card-body">
+                        <p className="text-xl text-white hover:text-lime-400">{name}</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div></Link>
+        </Link>
     );
 };
 

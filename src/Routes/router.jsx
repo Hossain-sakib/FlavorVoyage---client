@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import Error from "../Pages/ErrorPage/Error";
 import BrandProduct from "../Pages/BrandProduct/BrandProduct";
 import UpdateProduct from "../Pages/UpdateProduct/UpdateProduct";
+import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 
 
 const router = createBrowserRouter([
@@ -24,10 +25,21 @@ const router = createBrowserRouter([
                 loader: () => fetch('../../public/Brand.json')
             },
             {
-                path: '/brandProduct',
+                path: '/brandProduct/:name',
                 element: <PrivateRoute><BrandProduct></BrandProduct></PrivateRoute>,
                 loader: () => fetch('http://localhost:5002/product')
             },
+            {
+                path: '/product/:name',
+                element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>,
+                loader: () => fetch('http://localhost:5002/product')
+            },
+
+
+
+
+
+            
             {
                 path: '/addProduct',
                 element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
