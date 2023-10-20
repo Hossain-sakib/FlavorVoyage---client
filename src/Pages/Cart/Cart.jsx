@@ -15,7 +15,7 @@ const Cart = () => {
             text: "You really want to remove this product from cart?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#c0ca33',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, remove it!'
         }).then((result) => {
@@ -46,9 +46,9 @@ const Cart = () => {
             {cartItem.length > 0 ? (
                 <>
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        <table className="table border-4 border-lime-300 rounded-xl">
                             <thead>
-                                <tr>
+                                <tr className="text-lime-600">
                                     <th>SL</th>
                                     <th>Name</th>
                                     <th>Type</th>

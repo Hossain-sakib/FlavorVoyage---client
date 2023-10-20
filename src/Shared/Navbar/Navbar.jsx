@@ -6,6 +6,20 @@ import { CgProfile } from "react-icons/cg";
 
 
 const Navbar = () => {
+    const dark = () => {
+        return document.querySelector("html").attributes['data-theme'].value = "dark"
+    }
+    const light = () => {
+        return document.querySelector("html").attributes['data-theme'].value = "light"
+    }
+
+    const toggleTheme = e => {
+        if (e.target.checked) {
+            return dark();
+        }
+        return light();
+    }
+
 
     const { user, signOutUser } = useContext(AuthContext);
     const handleSignOut = () => {
@@ -15,7 +29,7 @@ const Navbar = () => {
     }
     return (
         <div>
-            <div className="navbar rounded border-2 border-lime-500">
+            <div className="navbar rounded border-4 border-lime-300">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost hover:bg-lime-100 lg:hidden">
@@ -25,6 +39,10 @@ const Navbar = () => {
                             <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>Home</NavLink></li>
                             <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/addProduct'>Add Product</NavLink></li>
                             <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/cart'>My Cart</NavLink></li>
+
+                            <div className="flex justify-center">
+                                <input type="checkbox" className="toggle toggle-md bg-lime-100" onChange={toggleTheme} />
+                            </div>
                         </ul>
                     </div>
                     <Link to='/'>
@@ -35,10 +53,11 @@ const Navbar = () => {
 
                 </div>
                 <div className="navbar-center hidden lg:flex ">
-                    <ul className=" menu-horizontal px-1 gap-4">
+                    <ul className=" menu-horizontal px-1 gap-4 flex items-center">
                         <li className="btn btn-sm w-36 py-2 bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>Home</NavLink></li>
                         <li className="btn btn-sm w-36 py-2  bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/addProduct'>Add Product</NavLink></li>
                         <li className="btn btn-sm w-36 py-2  bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/cart'>My Cart</NavLink></li>
+                        <input type="checkbox" className="toggle toggle-md bg-lime-100" onChange={toggleTheme} />
                     </ul>
                 </div>
                 <div className="navbar-end space-x-1 flex items-center">
@@ -80,10 +99,10 @@ const Navbar = () => {
                     }
                     {
                         user ?
-                            <button onClick={handleSignOut} className="btn bg-lime-300 hover:bg-lime-200 font-bold  text-black">SIGN OUT</button>
+                            <button onClick={handleSignOut} className="btn bg-lime-600 hover:bg-lime-500 font-bold  text-white">SIGN OUT</button>
                             :
                             <Link to='/signIn'>
-                                <button className="btn bg-lime-300 hover:bg-lime-200 font-bold  text-black">SIGN IN</button>
+                                <button className="btn bg-lime-600 hover:bg-lime-500 font-bold  text-white">SIGN IN</button>
                             </Link>
 
                     }
