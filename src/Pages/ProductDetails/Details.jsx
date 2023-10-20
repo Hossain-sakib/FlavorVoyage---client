@@ -1,8 +1,30 @@
 import { AiOutlineStar } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 
 const Details = ({ productDetail }) => {
-    const { _id, image, name, brand, type, price, rating, description } = productDetail || {};
+    const { image, name, brand, type, price, rating, description } = productDetail || {};
+
+    const handleAddCart = () => {
+      
+        
+        fetch('http://localhost:5002/cart', {
+            method: "POST",
+            headers: {
+                "content-type": 'application/json',
+            },
+            body: JSON.stringify(productDetail)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.insertedId);
+                if (data.insertedId) {
+                    Swal.fire("Successful!", "Product added to the cart.", 'success')
+                }
+
+            })
+
+    }
 
 
     return (
@@ -16,11 +38,15 @@ const Details = ({ productDetail }) => {
                             <p className="text-2xl font-bold">{price} Tk.</p>
                         </div>
                         <p className="py-6">{description}</p>
-                        <div className="space-x-2 space-y-6">
-                            <div className="badge border border-lime-500">{type}</div>
-                            <div className="badge badge-outline bg-lime-300">{brand}</div>
+                        <div className="space-y-6 flex flex-col">
+                            <div className="space-x-2">
+                                <div className="badge border border-lime-500">{type}</div>
+                                <div className="badge badge-outline bg-lime-300">{brand}</div>
+                            </div>
                             <div className="flex items-center gap-2 "><AiOutlineStar className='text-lime-700'></AiOutlineStar> {rating}</div>
-                            <button className="btn border-2 border-lime-400 hover:bg-lime-200 font-bold  text-black">Add to cart</button>
+                            <div>
+                                <button onClick={handleAddCart} className="btn border-2 border-lime-400 hover:bg-lime-200 font-bold  text-black">Add to cart</button>
+                            </div>
                         </div>
 
                     </div>

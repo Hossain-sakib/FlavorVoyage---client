@@ -24,7 +24,7 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
                             <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>Home</NavLink></li>
                             <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/addProduct'>Add Product</NavLink></li>
-                            <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>My Cart</NavLink></li>
+                            <li className="btn btn-sm w-full bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/cart'>My Cart</NavLink></li>
                         </ul>
                     </div>
                     <Link to='/'>
@@ -38,7 +38,7 @@ const Navbar = () => {
                     <ul className=" menu-horizontal px-1 gap-4">
                         <li className="btn btn-sm w-36 py-2 bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>Home</NavLink></li>
                         <li className="btn btn-sm w-36 py-2  bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/addProduct'>Add Product</NavLink></li>
-                        <li className="btn btn-sm w-36 py-2  bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/'>My Cart</NavLink></li>
+                        <li className="btn btn-sm w-36 py-2  bg-lime-100 text-lime-600  btn-ghost"><NavLink to='/cart'>My Cart</NavLink></li>
                     </ul>
                 </div>
                 <div className="navbar-end space-x-1 flex items-center">

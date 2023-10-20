@@ -3,6 +3,7 @@ import AOS from 'aos';
 import { AiOutlineStar } from "react-icons/ai";
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const BrandProductCard = ({ product }) => {
     const { _id, image, name, brand, type, price, rating } = product || {};
@@ -40,5 +41,10 @@ const BrandProductCard = ({ product }) => {
         </div>
     );
 };
+
+BrandProductCard.propTypes = {
+    product: PropTypes.object
+}
+
 
 export default BrandProductCard;

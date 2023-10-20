@@ -21,7 +21,7 @@ const BrandProduct = () => {
     return (
         <div className="space-y-8">
 
-            <div className="border-4 border-lime-300 ">
+            <div className="border-4 border-lime-300 rounded-lg">
                 <Adv></Adv>
             </div>
 

@@ -20,10 +20,10 @@ const Adv = () => {
 
             </div>
             <div className="flex justify-center w-full py-2 gap-2">
-                <a href="#item1" className="btn btn-xs">1</a>
-                <a href="#item2" className="btn btn-xs">2</a>
-                <a href="#item3" className="btn btn-xs">3</a>
-                <a href="#item4" className="btn btn-xs">4</a>
+                <a href="#item1" className="btn hover:bg-lime-300 btn-xs">1</a>
+                <a href="#item2" className="btn hover:bg-lime-300 btn-xs">2</a>
+                <a href="#item3" className="btn hover:bg-lime-300 btn-xs">3</a>
+                <a href="#item4" className="btn hover:bg-lime-300 btn-xs">4</a>
             </div>
         </div>
     );

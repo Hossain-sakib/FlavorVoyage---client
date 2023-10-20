@@ -5,6 +5,9 @@ import Swal from "sweetalert2";
 const UpdateProduct = () => {
     const product = useLoaderData();
     const { _id, image, name, brand, type, price, description, rating } = product;
+
+
+    
     const handleUpdateProduct = e => {
         e.preventDefault();
         const form = e.target;
