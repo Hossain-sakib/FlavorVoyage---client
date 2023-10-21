@@ -12,8 +12,7 @@ const Home = () => {
             <div>
                 <Banner></Banner>
             </div>
-
-            <div className="flex flex-col items-center justify-center rounded border-2 border-lime-500 pb-8" >
+            <div className="flex flex-col items-center justify-center  border-4 border-lime-300 pb-8" >
                 <h1 className="text-center font-bold text-lime-600 text-4xl my-8">
                     Explore Our Refreshing Brands
                 </h1>
@@ -23,7 +22,6 @@ const Home = () => {
                     }
                 </div>
             </div>
-
             <div className="flex flex-col md:flex-row gap-8">
                 <TopSell></TopSell>
                 <GetDealership></GetDealership>

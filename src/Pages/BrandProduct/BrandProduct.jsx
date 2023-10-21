@@ -29,7 +29,7 @@ const BrandProduct = () => {
             {/* cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {
-                  brandProduct?.map(product => <BrandProductCard key={product.id}
+                  brandProduct?.map(product => <BrandProductCard key={product._id}
                         product={product}></BrandProductCard>)
                 }
             </div>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const GetDealership = () => {
     return (
-        <div className="rounded-lg border-4 border-lime-300 p-6 bg-lime-100 space-y-8 flex flex-col">
+        <div className="border-4 border-lime-300 p-6  space-y-8 flex flex-col">
             <h1 className="text-left text-3xl font-bold pb-4 text-lime-600">Explore Dealership Opportunities?</h1>
             <ul className="list-disc text-lime-500 font-semibold pl-5 flex-grow space-y-4">
                 <li> Profitable partnership potential.</li>

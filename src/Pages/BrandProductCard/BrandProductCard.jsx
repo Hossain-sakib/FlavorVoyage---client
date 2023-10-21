@@ -33,9 +33,9 @@ const BrandProductCard = ({ product }) => {
                     </div>
                 </div>
                 <div className="pt-4  flex flex-col space-y-4">
-                    <Link to={`/product/${name}`}><button className="btn w-full border-2 border-lime-400 hover:bg-lime-200 font-bold  text-black">See Details</button></Link>
+                    <Link to={`/product/${name}`}><button className="btn w-full border-2 border-lime-400 hover:bg-lime-200 font-bold">See Details</button></Link>
 
-                    <Link to={`/updateProduct/${_id}`}><button className="btn w-full border-2 border-lime-400 hover:bg-lime-200 font-bold  text-black">Update Product</button></Link>
+                    <Link to={`/updateProduct/${_id}`}><button className="btn w-full border-2 border-lime-400 hover:bg-lime-200 font-bold">Update Product</button></Link>
                 </div>
             </div>
         </div>

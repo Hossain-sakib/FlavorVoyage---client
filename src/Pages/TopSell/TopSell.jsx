@@ -1,6 +1,6 @@
 const TopSell = () => {
     return (
-        <div className="rounded-lg border-4 border-lime-300 p-6 bg-lime-100">
+        <div className=" border-4 border-lime-300 p-6">
             <h1 className="text-center text-3xl font-bold pb-4 text-lime-600">Drinks Of The Month</h1>
             <div className="carousel w-full">
                 <div id="item1" className="carousel-item w-full">
