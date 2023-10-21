@@ -17,7 +17,7 @@ const CartItem = ({ item, handleRemoveItem }) => {
             confirmButtonText: 'Yes, remove it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5002/cart/${_id}`, {
+                fetch(`https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/cart/${_id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())

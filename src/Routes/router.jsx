@@ -23,22 +23,22 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>,
-                loader: () => fetch('../../public/Brand.json')
+                loader: () => fetch('Brand.json')
             },
             {
                 path: '/brandProduct/:name',
                 element: <BrandProduct></BrandProduct>,
-                loader: () => fetch('http://localhost:5002/product')
+                loader: () => fetch('https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/product')
             },
             {
                 path: '/product/:name',
                 element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>,
-                loader: () => fetch('http://localhost:5002/product')
+                loader: () => fetch('https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/product')
             },
             {
                 path: '/cart',
                 element: <PrivateRoute><Cart></Cart></PrivateRoute>,
-                loader: ()=> fetch('http://localhost:5002/cart')
+                loader: ()=> fetch('https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/cart')
                 
             },
             {
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
             {
                 path: '/updateProduct/:id',
                 element: <PrivateRoute><UpdateProduct></UpdateProduct></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5002/product/${params.id}`)
+                loader: ({ params }) => fetch(`https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/product/${params.id}`)
 
             },
 

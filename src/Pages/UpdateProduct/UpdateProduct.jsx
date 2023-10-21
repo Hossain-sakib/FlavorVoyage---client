@@ -23,7 +23,7 @@ const UpdateProduct = () => {
 
 
 
-        fetch(`http://localhost:5002/product/${_id}`, {
+        fetch(`https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/product/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

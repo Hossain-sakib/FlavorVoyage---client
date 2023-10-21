@@ -15,7 +15,7 @@ const AddProduct = () => {
         const newProduct = { image, name, brand, type, price, description, rating };
         console.log(newProduct);
 
-        fetch('http://localhost:5002/product',{
+        fetch('https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/product',{
             method: 'POST',
             headers:{
                 'content-type':'application/json'

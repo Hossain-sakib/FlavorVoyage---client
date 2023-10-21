@@ -9,7 +9,7 @@ const Details = ({ productDetail }) => {
     const handleAddCart = () => {
       
         
-        fetch('http://localhost:5002/cart', {
+        fetch('https://flavor-voyage-server-ocr8lwuo5-sakibs-projects-05a313dc.vercel.app/cart', {
             method: "POST",
             headers: {
                 "content-type": 'application/json',
