@@ -22,7 +22,6 @@ const Cart = () => {
                             <tr className="text-lime-700">
                                 <th>Image</th>
                                 <th>Name</th>
-                                <th>Type</th>
                                 <th>Brand</th>
                                 <th>Price</th>
                                 <th>Actions</th>

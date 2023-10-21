@@ -41,7 +41,6 @@ const CartItem = ({ item, handleRemoveItem }) => {
         <tr className="hover">
             <td><img className="w-10 flex items-center justify-center" src={image} alt="" /></td>
             <td>{name} </td>
-            <td>{type}</td>
             <td>{brand}</td>
             <td>{price} Tk.</td>
             <td className="">
