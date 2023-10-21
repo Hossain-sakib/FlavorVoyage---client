@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 const CartItem = ({ item, handleRemoveItem }) => {
-    const { _id, name, brand, type, price, image } = item || {};
+    const { _id, name, brand, price, image } = item || {};
 
 
     const handleRemove = _id => {
@@ -39,7 +39,7 @@ const CartItem = ({ item, handleRemoveItem }) => {
 
     return (
         <tr className="hover">
-            <td><img className="w-10 flex items-center justify-center" src={image} alt="" /></td>
+            <td><img className="w-8 flex items-center justify-center" src={image} alt="" /></td>
             <td>{name} </td>
             <td>{brand}</td>
             <td>{price} Tk.</td>
