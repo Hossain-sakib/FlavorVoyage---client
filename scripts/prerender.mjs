@@ -31,29 +31,29 @@ for (const page of pages) {
   let html = template
     .replace(/<title>.*?<\/title>/, `<title>${escape(page.title)}</title>`)
     .replace(
-      /<meta name="description"[^>]*>/,
+      /<meta\s+name="description"[^>]*>/,
       `<meta name="description" content="${escape(page.description)}" />`,
     )
     .replace(
-      /<link rel="canonical"[^>]*>/,
+      /<link\s+rel="canonical"[^>]*>/,
       `<link rel="canonical" href="${canonical}" />`,
     )
     .replace(
-      /<meta property="og:title"[^>]*>/,
+      /<meta\s+property="og:title"[^>]*>/,
       `<meta property="og:title" content="${escape(page.title)}" />`,
     )
     .replace(
-      /<meta property="og:description"[^>]*>/,
+      /<meta\s+property="og:description"[^>]*>/,
       `<meta property="og:description" content="${escape(page.description)}" />`,
     )
     .replace(
-      /<meta property="og:url"[^>]*>/,
+      /<meta\s+property="og:url"[^>]*>/,
       `<meta property="og:url" content="${canonical}" />`,
     )
     .replace('<div id="root"></div>', `<div id="root">${page.html}</div>`);
   if (page.image)
     html = html.replace(
-      /<meta property="og:image"[^>]*>/,
+      /<meta\s+property="og:image"[^>]*>/,
       `<meta property="og:image" content="${escape(page.image)}" />`,
     );
   if (page.schema)
