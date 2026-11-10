@@ -1,0 +1,28 @@
+name: Client checks
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: FlavorVoyage---client
+      - uses: actions/checkout@v4
+        with:
+          repository: Hossain-sakib/FlavorVoyage-server
+          path: FlavorVoyage-server
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+        working-directory: FlavorVoyage-server
+      - run: npm ci
+        working-directory: FlavorVoyage---client
+      - run: npm run lint && npm run format:check && npm run build
+        working-directory: FlavorVoyage---client
+      - run: npx playwright install --with-deps chromium
+        working-directory: FlavorVoyage---client
+      - run: npm run test:e2e
+        working-directory: FlavorVoyage---client
+      - run: npm audit --omit=dev
+        working-directory: FlavorVoyage---client

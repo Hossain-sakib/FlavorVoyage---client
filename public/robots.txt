@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.netlify/
+Disallow: /*?view=admin
+Disallow: /*?view=orders
+Disallow: /*?view=messages
+Disallow: /*?view=inventory
+Disallow: /*?view=addresses
+Disallow: /*?view=quotes
+Disallow: /*?view=shop
+Sitemap: https://flavor-voyage.netlify.app/sitemap.xml
