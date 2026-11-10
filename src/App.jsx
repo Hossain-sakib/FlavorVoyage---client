@@ -1041,13 +1041,25 @@ export default function App() {
                             </div>
                           </div>
                           <div className={classes("hero-pack pack-back")}>
-                            <ProductArt type="clemon" />
+                            <ProductArt
+                              image={products[1]?.image}
+                              name={products[1]?.name}
+                              type={products[1]?.illustration}
+                            />
                           </div>
                           <div className={classes("hero-pack pack-front")}>
-                            <ProductArt type="mojo" />
+                            <ProductArt
+                              image={products[0]?.image}
+                              name={products[0]?.name}
+                              type={products[0]?.illustration}
+                            />
                           </div>
                           <div className={classes("hero-pack pack-side")}>
-                            <ProductArt type="frooto" />
+                            <ProductArt
+                              image={products[2]?.image}
+                              name={products[2]?.name}
+                              type={products[2]?.illustration}
+                            />
                           </div>
                           <div className={classes("hero-sticker")}>
                             made for

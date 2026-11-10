@@ -2,11 +2,10 @@ import { classes } from "./ui/classes";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { FiCameraOff } from "react-icons/fi";
-import images from "./drinkImages.json";
 
-export default function DrinkImage({ type = "mojo", image, name }) {
+export default function DrinkImage({ type = "drink", image, name }) {
   const [failedSource, setFailedSource] = useState(null);
-  const source = image || images[type];
+  const source = image;
   if (source && failedSource !== source)
     return (
       <img
