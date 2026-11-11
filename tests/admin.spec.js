@@ -53,11 +53,42 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
     Object.assign(product, saved);
     await route.fulfill({ json: product });
   });
+  let created;
+  await page.route("**/api/admin/products", async (route) => {
+    created = route.request().postDataJSON();
+    const result = { ...created, id: "created-product", active: true };
+    data.products.push(result);
+    await route.fulfill({ status: 201, json: result });
+  });
   await page.goto("/?view=admin");
   await page.getByRole("button", { name: "Products", exact: true }).click();
   await page.getByLabel("Case price", { exact: true }).fill("700");
   await page.getByRole("button", { name: "Save product", exact: true }).click();
   await expect.poll(() => saved?.price).toBe(700);
+  await page
+    .getByText("Add a new product or pack variant", { exact: true })
+    .click();
+  await page
+    .getByLabel("New product name", { exact: true })
+    .fill("New example drink");
+  await page
+    .getByLabel("New product brand", { exact: true })
+    .fill("Example brand");
+  await page
+    .getByLabel("New case packaging", { exact: true })
+    .fill("12 × 500 ml");
+  await page.getByLabel("New unit size", { exact: true }).fill("500 ml");
+  await page
+    .getByRole("combobox", { name: "Dealer for new product", exact: true })
+    .selectOption("dealer-1");
+  await page.getByLabel("New case price (BDT)", { exact: true }).fill("650");
+  await page.getByLabel("New available stock", { exact: true }).fill("25");
+  await page.getByLabel("New minimum cases", { exact: true }).fill("2");
+  await page
+    .getByRole("button", { name: "Create product", exact: true })
+    .click();
+  await expect.poll(() => created?.name).toBe("New example drink");
+  expect(created.supplierId).toBe("dealer-1");
   await page.getByRole("button", { name: "Dealers", exact: true }).click();
   await expect(page.getByRole("button", { name: "Save dealer" })).toBeVisible();
   await page.getByRole("button", { name: "Content", exact: true }).click();

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ImageUpload from "./ImageUpload";
+import AdminProductForm from "./AdminProductForm";
 import { marketApi, send, money } from "./marketApi";
 const tabs = [
   "Overview",
@@ -44,8 +45,10 @@ export default function AdminDashboard() {
       await send(`/admin${path}`, body, method);
       setRevision((n) => n + 1);
       setNotice("Saved. The change is recorded in the audit log.");
+      return true;
     } catch (e) {
       setError(e.message);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -135,6 +138,14 @@ export default function AdminDashboard() {
               placeholder="Search records…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+            />
+          )}
+          {tab === "Products" && (
+            <AdminProductForm
+              products={data.products}
+              suppliers={data.suppliers}
+              busy={busy}
+              onCreate={(values) => mutate("/products", values, "POST")}
             />
           )}
           {tab === "Products" && (
