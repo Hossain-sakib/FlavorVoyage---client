@@ -21,7 +21,17 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
     products: [product],
     suppliers: [{ id: "dealer-1", name: "Demo dealer", location: "Dhaka" }],
     orders: [],
-    quotes: [],
+    quotes: [
+      {
+        id: "quote-1",
+        reference: "RFQ-DEMO",
+        retailerName: "Example shop",
+        supplierName: "Demo dealer",
+        items: [{ name: "Sample product", quantity: 4 }],
+        status: "requested",
+        note: "Morning delivery preferred",
+      },
+    ],
     content: {},
     notes: [],
     auditLog: [],
@@ -62,6 +72,11 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
   });
   await page.goto("/?view=admin");
   await page.getByRole("button", { name: "Products", exact: true }).click();
+  await page.getByLabel("Filter admin stock").selectOption("low");
+  await expect(
+    page.getByText("No listings match. Try another search or stock filter."),
+  ).toBeVisible();
+  await page.getByLabel("Filter admin stock").selectOption("all");
   await page.getByLabel("Case price", { exact: true }).fill("700");
   await page.getByRole("button", { name: "Save product", exact: true }).click();
   await expect.poll(() => saved?.price).toBe(700);
@@ -91,6 +106,11 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
   expect(created.supplierId).toBe("dealer-1");
   await page.getByRole("button", { name: "Dealers", exact: true }).click();
   await expect(page.getByRole("button", { name: "Save dealer" })).toBeVisible();
+  await page.getByRole("button", { name: "Quotes", exact: true }).click();
+  await expect(page.getByText("RFQ-DEMO", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Sample product (4 cases)", { exact: true }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Content", exact: true }).click();
   await expect(page.getByLabel("Announcement", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Audit log", exact: true }).click();

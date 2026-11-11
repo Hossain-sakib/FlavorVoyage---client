@@ -4,7 +4,7 @@ const form =
   "[&_label]:grid [&_label]:gap-2 [&_label]:text-sm [&_label]:font-medium [&_input]:min-w-0 [&_input]:w-full [&_input]:rounded-xl [&_input]:border [&_input]:border-stone-200 [&_input]:bg-white [&_input]:px-3 [&_input]:py-3 [&_select]:w-full [&_select]:rounded-xl [&_select]:border [&_select]:border-stone-200 [&_select]:bg-white [&_select]:px-3 [&_select]:py-3 [&_textarea]:w-full [&_textarea]:rounded-xl [&_textarea]:border [&_textarea]:border-stone-200 [&_textarea]:px-3 [&_textarea]:py-3 [&_textarea]:min-h-24 [&_form]:space-y-5";
 const recipes = {
   "app-shell":
-    "min-h-screen bg-stone-50 text-[#30213f] antialiased font-sans text-sm",
+    "min-h-screen bg-[#f7f6f9] text-[#30213f] antialiased font-sans text-sm [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-600",
   sidebar:
     "fixed inset-y-0 left-0 z-40 hidden w-64 flex-col gap-5 overflow-y-auto border-r border-stone-200 bg-white p-5 lg:flex",
   "mobile-open": "!flex",
@@ -52,7 +52,7 @@ const recipes = {
     "mb-7 flex flex-wrap items-center justify-between gap-4 [&_h1]:mt-2 [&_h1]:text-3xl [&_h1]:font-bold [&_p]:mt-3 [&_p]:text-stone-500",
   eyebrow:
     "text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-500",
-  panel: "rounded-2xl border border-stone-200 bg-white p-6",
+  panel: "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm",
   "page-footer":
     "mt-12 flex flex-wrap justify-between gap-3 border-t border-stone-200 py-6 text-xs text-stone-500",
   "modal-panel": `fixed inset-0 m-auto max-h-[90dvh] w-[min(92vw,40rem)] overflow-y-auto rounded-3xl border-0 bg-white p-6 text-[#30213f] shadow-2xl backdrop:bg-black/45 ${form}`,
@@ -88,25 +88,6 @@ const recipes = {
     "my-6 flex flex-wrap items-center justify-center gap-4 rounded-xl bg-stone-100 p-5",
   "toast-message":
     "fixed bottom-5 left-1/2 z-[100] flex w-[min(92vw,36rem)] -translate-x-1/2 items-center justify-between gap-3 rounded-2xl bg-[#30213f] px-5 py-4 text-white shadow-xl",
-  "hero-banner":
-    "relative mb-7 grid gap-6 overflow-hidden rounded-3xl bg-[#30213f] p-7 text-white md:grid-cols-[1.2fr_1fr] md:p-10",
-  "hero-copy":
-    "relative z-10 [&_h2]:my-5 [&_h2]:text-4xl [&_h2]:font-bold [&_em]:font-serif [&_em]:text-amber-200 [&_p]:max-w-lg [&_p]:leading-7 [&_p]:text-stone-300",
-  "hero-tag": "text-[10px] uppercase tracking-[0.15em] text-amber-200",
-  "hero-art": "relative hidden min-h-60 items-center justify-center md:flex",
-  "hero-pack": "absolute h-52 w-36 [&_img]:h-full",
-  "pack-front": "left-12 top-2 rotate-[-10deg]",
-  "pack-back": "right-4 top-0 rotate-12",
-  "pack-side": "bottom-0 left-1/3",
-  "hero-platform": "absolute bottom-0 h-12 w-full rounded-full bg-amber-200/20",
-  "hero-sticker":
-    "absolute bottom-0 right-0 rounded-full bg-amber-200 p-6 text-center text-xs text-[#30213f]",
-  "hero-mini-card": "hidden",
-  "hero-assurance": "mt-6 flex flex-wrap gap-4 text-xs text-stone-300",
-  "hero-button":
-    "mt-5 inline-flex items-center gap-2 rounded-xl bg-amber-100 px-5 py-3 font-bold text-[#30213f]",
-  orbit: "hidden",
-  "art-spark": "hidden",
   "stats-grid": "mb-8 grid grid-cols-2 gap-4 xl:grid-cols-4",
   "stat-card":
     "rounded-2xl border border-stone-200 bg-white p-5 [&>strong]:my-4 [&>strong]:block [&>strong]:text-3xl [&>strong]:font-bold [&_small]:text-xs [&_small]:text-stone-400",
@@ -197,7 +178,7 @@ const recipes = {
   "dealer-tools": `my-4 grid gap-4 sm:grid-cols-2 ${form}`,
   "nearby-grid": "grid gap-5 md:grid-cols-2 xl:grid-cols-3",
   "nearby-card":
-    "rounded-2xl border border-stone-200 bg-white p-6 [&_h3]:my-4 [&_h3]:text-lg [&_h3]:font-bold [&_p]:my-3 [&_p]:flex [&_p]:items-center [&_p]:gap-2 [&_p]:text-xs [&_p]:text-stone-500",
+    "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm [&_h3]:my-4 [&_h3]:text-lg [&_h3]:font-bold [&_p]:my-3 [&_p]:flex [&_p]:items-center [&_p]:gap-2 [&_p]:text-xs [&_p]:text-stone-500",
   "dealer-card-top": "flex items-center justify-between gap-3",
   "dealer-avatar":
     "grid size-12 place-items-center rounded-xl bg-stone-100 font-bold",
@@ -265,12 +246,13 @@ const recipes = {
   "address-book": "grid gap-6 lg:grid-cols-2",
   "address-list": "space-y-4",
   "address-card":
-    "rounded-2xl border border-stone-200 bg-white p-6 [&_h2]:my-3 [&_h2]:font-bold [&_p]:leading-7 [&_p]:text-stone-500",
+    "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm [&_h2]:my-3 [&_h2]:font-bold [&_p]:leading-7 [&_p]:text-stone-500",
   "address-form": form,
   "sr-only": "sr-only",
   spin: "animate-spin",
   "desktop-br": "hidden md:block",
-  "fv-website": "bg-[#fffcf7] text-[#30213f]",
+  "fv-website":
+    "bg-[#fffcf7] text-[#30213f] [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-600",
   "fv-brand": "inline-flex items-center gap-3",
   "fv-brand-mark": "size-11 shrink-0",
   "fv-wordmark":

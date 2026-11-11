@@ -185,7 +185,7 @@ export default function ProductPage({
                 </div>
               </dl>
             </section>
-            <div id="product-dealers">
+            <div id="product-dealers" className="scroll-mt-8">
               <DealerFinder
                 products={products}
                 familyId={family}
@@ -195,6 +195,54 @@ export default function ProductPage({
               />
             </div>
             <Reviews productId={product.id} user={user} onAccount={onAccount} />
+            <section aria-label="More drinks to discover" className="my-10">
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500">
+                    Keep exploring
+                  </p>
+                  <h2 className="mt-2 text-xl font-bold">
+                    More in {product.category}
+                  </h2>
+                </div>
+                <button
+                  onClick={onHome}
+                  className="text-sm font-semibold text-[#694680]"
+                >
+                  Explore all drinks ↗
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {products
+                  .filter(
+                    (p) =>
+                      !p.catalogOnly &&
+                      (p.familyId || p.id) !== family &&
+                      p.category === product.category,
+                  )
+                  .slice(0, 4)
+                  .map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => onProduct(p.id)}
+                      className="rounded-2xl border border-stone-200 bg-white p-4 text-left transition hover:border-purple-300 hover:shadow-md"
+                    >
+                      <DrinkImage image={p.image} name={p.name} />
+                      <p className="mt-4 text-[10px] uppercase tracking-widest text-stone-500">
+                        {p.brand}
+                      </p>
+                      <h3 className="mt-2 text-sm font-semibold">{p.name}</h3>
+                      <p className="mt-2 text-xs text-stone-500">{p.pack}</p>
+                      <p className="mt-3 text-sm font-bold">
+                        {money(p.price)}{" "}
+                        <span className="font-normal text-stone-500">
+                          / case
+                        </span>
+                      </p>
+                    </button>
+                  ))}
+              </div>
+            </section>
             <RecentProducts
               products={products}
               currentId={product.id}

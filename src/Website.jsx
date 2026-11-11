@@ -250,7 +250,7 @@ export default function Website({
     }
   }
   return (
-    <div className="fv-website min-h-screen bg-[#fffcf7] text-[#30213f]">
+    <div className="fv-website min-h-screen bg-[#fffcf7] text-[#30213f] [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-600">
       <div className="bg-[#30213f] px-5 py-2.5 text-center text-xs text-white/80">
         {siteContent?.announcement ||
           "Discover your favorites. Connect with local dealers."}{" "}
@@ -281,17 +281,31 @@ export default function Website({
             <button onClick={() => scrollTo("discover")}>Explore drinks</button>
             <button onClick={() => scrollTo("companies")}>Companies</button>
             <button onClick={onDealers}>Find a dealer</button>
+            <button
+              className="rounded-xl bg-[#30213f] p-3 text-white sm:hidden"
+              onClick={onAccount}
+            >
+              {user ? "Your workspace" : "Sign in / create account"}
+            </button>
             <button onClick={() => scrollTo("for-business")}>
               For businesses ↗
             </button>
           </nav>
           <div className="flex items-center gap-2">
             <button
-              className="rounded-full p-2 hover:bg-stone-100"
+              className="relative rounded-full p-2 hover:bg-stone-100"
               onClick={onCart}
               aria-label={`Your order, ${cartCount} products`}
             >
               <FiShoppingBag className="size-5" />
+              {cartCount > 0 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-amber-200 px-1 text-[10px] font-bold"
+                >
+                  {cartCount}
+                </span>
+              )}
             </button>
             <button
               className="rounded-full p-2 hover:bg-stone-100"
@@ -378,24 +392,52 @@ export default function Website({
               </div>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-lg pb-10 pl-6">
-            <img
-              className="h-[28rem] w-full rounded-[2.5rem] object-cover shadow-2xl shadow-amber-900/10 sm:h-[34rem]"
-              src="/images/stories/refresh.jpg"
-              alt="Cold citrus drinks with fresh fruit and ice"
-              width="600"
-              height="720"
-            />
-            <div className="absolute -left-2 bottom-0 flex max-w-[80%] items-center gap-4 rounded-2xl border border-stone-100 bg-white p-5 shadow-xl">
-              <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-amber-50 text-amber-700">
-                <FiCompass className="size-6" />
-              </span>
-              <div>
-                <strong className="text-sm">
-                  Good drinks. Closer connections.
-                </strong>
-                <p className="mt-1 text-xs leading-5 text-stone-500">
-                  Compare packs and find your local dealer.
+          <div className="relative mx-auto w-full max-w-lg">
+            <div className="overflow-hidden rounded-[2rem] border border-[#e9dfd1] bg-[#f3ebdf] p-6 sm:p-8">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#795c3d]">
+                  The drinks edit
+                </span>
+                <span className="rounded-full bg-white/80 px-3 py-1.5 text-[10px] text-stone-600">
+                  Discover · Compare · Connect
+                </span>
+              </div>
+              <h2 className="mt-4 max-w-xs text-2xl font-semibold tracking-tight sm:text-3xl">
+                Familiar favorites.
+                <br />
+                <span className="font-serif italic text-[#94622e]">
+                  Fresh possibilities.
+                </span>
+              </h2>
+              <div className="mt-7 grid grid-cols-3 gap-3">
+                {drinks.slice(0, 3).map((drink, index) => (
+                  <button
+                    key={drink.id}
+                    onClick={() => exploreProduct(drink)}
+                    className={`group min-w-0 rounded-2xl bg-white p-3 text-left shadow-sm transition motion-safe:hover:-translate-y-2 ${index === 1 ? "mt-5" : "mb-5"}`}
+                    aria-label={`Explore ${drink.name}`}
+                  >
+                    <div className="flex h-36 items-center justify-center [&_img]:max-h-full sm:h-48">
+                      <DrinkImage
+                        image={drink.image}
+                        name={drink.name}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                    <span className="mt-3 block text-[9px] uppercase tracking-wider text-stone-400">
+                      {drink.brand}
+                    </span>
+                    <strong className="mt-1 block text-xs leading-5">
+                      {drink.name}
+                    </strong>
+                  </button>
+                ))}
+              </div>
+              <div className="mt-5 flex items-start gap-3 rounded-xl border border-white/70 bg-white/60 p-4">
+                <FiCompass className="mt-1 size-5 shrink-0 text-[#94622e]" />
+                <p className="text-xs leading-6 text-stone-600">
+                  One place to explore drinks, compare pack prices, and find
+                  dealers across Bangladesh. Demo offers are labeled.
                 </p>
               </div>
             </div>

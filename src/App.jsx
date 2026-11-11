@@ -1,3 +1,4 @@
+import OperationsSummary from "./OperationsSummary";
 import WorkspaceDialogs from "./WorkspaceDialogs";
 import { readRoute } from "./routing";
 import { usePageMetadata } from "./usePageMetadata";
@@ -996,81 +997,13 @@ export default function App() {
                   )}
                   {view === "overview" && (
                     <>
-                      <section className={classes("hero-banner")}>
-                        <div className={classes("hero-copy")}>
-                          <span className={classes("hero-tag")}>
-                            <i /> THE BEVERAGE BUSINESS MARKETPLACE
-                          </span>
-                          <h2>
-                            Better drinks.
-                            <br />
-                            <em>Better business.</em>
-                          </h2>
-                          <p>
-                            Connect with suppliers, discover better prices,
-                            <br className={classes("desktop-br")} /> and keep
-                            your shelves full of possibilities.
-                          </p>
-                          <button
-                            className={classes("button hero-button")}
-                            onClick={() => navigate("catalog")}
-                          >
-                            Explore marketplace <FiArrowUpRight />
-                          </button>
-                          <div className={classes("hero-assurance")}>
-                            <FiShield /> Direct from suppliers <span />{" "}
-                            <FiPackage /> Wholesale, made simple
-                          </div>
-                        </div>
-                        <div className={classes("hero-art")} aria-hidden="true">
-                          <div className={classes("orbit orbit-one")} />
-                          <div className={classes("orbit orbit-two")} />
-                          <span className={classes("art-spark spark-one")}>
-                            ✷
-                          </span>
-                          <span className={classes("art-spark spark-two")}>
-                            ✧
-                          </span>
-                          <div className={classes("hero-mini-card")}>
-                            <span>
-                              <FiTruck />
-                            </span>
-                            <div>
-                              <strong>From supplier to shelf</strong>
-                              <small>One connected marketplace</small>
-                            </div>
-                          </div>
-                          <div className={classes("hero-pack pack-back")}>
-                            <ProductArt
-                              image={products[1]?.image}
-                              name={products[1]?.name}
-                              type={products[1]?.illustration}
-                            />
-                          </div>
-                          <div className={classes("hero-pack pack-front")}>
-                            <ProductArt
-                              image={products[0]?.image}
-                              name={products[0]?.name}
-                              type={products[0]?.illustration}
-                            />
-                          </div>
-                          <div className={classes("hero-pack pack-side")}>
-                            <ProductArt
-                              image={products[2]?.image}
-                              name={products[2]?.name}
-                              type={products[2]?.illustration}
-                            />
-                          </div>
-                          <div className={classes("hero-sticker")}>
-                            made for
-                            <br />
-                            <strong>LOCAL</strong>
-                            <br />
-                            business
-                          </div>
-                          <div className={classes("hero-platform")} />
-                        </div>
-                      </section>
+                      <OperationsSummary
+                        orders={orders}
+                        quotes={quotes}
+                        inventory={supplierMode ? inventory : products}
+                        supplierMode={supplierMode}
+                        onNavigate={navigate}
+                      />
                       {stats()}
                       <section className={classes("section-block")}>
                         <div className={classes("section-heading")}>

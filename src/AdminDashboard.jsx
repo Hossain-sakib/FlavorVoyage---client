@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import OperationsSummary from "./OperationsSummary";
 import ImageUpload from "./ImageUpload";
 import AdminProductForm from "./AdminProductForm";
 import { marketApi, send, money } from "./marketApi";
@@ -8,6 +9,7 @@ const tabs = [
   "Dealers",
   "Customers & CRM",
   "Orders",
+  "Quotes",
   "Content",
   "Audit log",
 ];
@@ -17,6 +19,8 @@ export default function AdminDashboard() {
   const [data, setData] = useState(null);
   const [tab, setTab] = useState("Overview");
   const [search, setSearch] = useState("");
+  const [stockFilter, setStockFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(24);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -55,6 +59,21 @@ export default function AdminDashboard() {
   }
   const matches = (value) =>
     String(value).toLowerCase().includes(search.toLowerCase());
+  const filteredProducts = (data?.products || [])
+    .filter((p) =>
+      matches(
+        `${p.name} ${p.brand} ${p.company} ${p.id} ${data?.suppliers.find((s) => s.id === p.supplierId)?.name || ""}`,
+      ),
+    )
+    .filter(
+      (p) =>
+        stockFilter === "all" ||
+        (stockFilter === "low"
+          ? p.active !== false && p.stock < Math.max(10, p.moq)
+          : stockFilter === "inactive"
+            ? p.active === false
+            : p.stock >= p.moq && p.active !== false),
+    );
   return (
     <section aria-label="Admin dashboard" className="space-y-6">
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-6 text-amber-900">
@@ -120,25 +139,122 @@ export default function AdminDashboard() {
                   </article>
                 ))}
               </div>
-              <div className="rounded-2xl border border-stone-200 bg-white p-6">
-                <h2 className="text-xl font-bold">Operations at a glance</h2>
-                <p className="mt-4 text-sm leading-8 text-stone-500">
-                  Manage stock and case prices in Products, keep contact notes
-                  in CRM, review all orders, and edit public content.
-                  Administrative changes appear in the audit log. Payment
-                  processing and financial ledgers are not enabled.
-                </p>
+              <OperationsSummary
+                orders={data.orders}
+                quotes={data.quotes}
+                inventory={data.products}
+                supplierMode
+                onNavigate={(view) => {
+                  setTab(
+                    {
+                      orders: "Orders",
+                      quotes: "Quotes",
+                      inventory: "Products",
+                      catalog: "Products",
+                    }[view] || "Overview",
+                  );
+                  setSearch("");
+                }}
+              />
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  [
+                    "Manage the catalog",
+                    "Products",
+                    "Edit prices, product information and stock.",
+                  ],
+                  [
+                    "Your dealer network",
+                    "Dealers",
+                    "Keep store locations and delivery details accurate.",
+                  ],
+                  [
+                    "Customer relationships",
+                    "Customers & CRM",
+                    "Review contacts and add useful follow-up notes.",
+                  ],
+                ].map(([title, destination, description]) => (
+                  <button
+                    key={destination}
+                    className="rounded-2xl border border-stone-200 bg-white p-6 text-left transition hover:border-purple-300 hover:shadow-sm"
+                    onClick={() => {
+                      setTab(destination);
+                      setSearch("");
+                    }}
+                  >
+                    <strong className="text-sm">{title} ↗</strong>
+                    <p className="mt-3 text-xs leading-6 text-stone-500">
+                      {description}
+                    </p>
+                  </button>
+                ))}
               </div>
             </>
           )}
-          {["Products", "Customers & CRM", "Orders"].includes(tab) && (
+          {[
+            "Products",
+            "Dealers",
+            "Customers & CRM",
+            "Orders",
+            "Quotes",
+          ].includes(tab) && (
             <input
               aria-label="Search admin records"
               className={field}
               placeholder="Search records…"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setVisibleCount(24);
+              }}
             />
+          )}
+          {tab === "Quotes" && (
+            <section className="space-y-3" aria-label="All quote requests">
+              <p className="text-sm text-stone-500">
+                A read-only view of marketplace negotiations. Buyers and dealers
+                manage responses in their own workspaces.
+              </p>
+              {(data.quotes || [])
+                .filter((q) => matches(JSON.stringify(q)))
+                .map((q) => (
+                  <article
+                    key={q.id}
+                    className="rounded-2xl border border-stone-200 bg-white p-5"
+                  >
+                    <div className="flex flex-wrap justify-between gap-3">
+                      <strong className="text-sm">
+                        {q.reference || "Quote request"}
+                      </strong>
+                      <span className="rounded-full bg-purple-50 px-3 py-1 text-xs capitalize text-purple-800">
+                        {q.status}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-xs text-stone-500">
+                      {q.retailerName} → {q.supplierName}
+                    </p>
+                    <p className="mt-2 text-sm">
+                      <span>
+                        {(q.items || [])
+                          .map(
+                            (item) => `${item.name} (${item.quantity} cases)`,
+                          )
+                          .join(" · ")}
+                      </span>
+                      {q.note && (
+                        <span className="mt-2 block text-xs leading-6 text-stone-500">
+                          {q.note}
+                        </span>
+                      )}
+                    </p>
+                  </article>
+                ))}
+              {!data.quotes?.length && (
+                <p className="rounded-2xl border border-dashed border-stone-200 p-8 text-center text-sm text-stone-500">
+                  No quote requests yet.
+                </p>
+              )}
+            </section>
           )}
           {tab === "Products" && (
             <AdminProductForm
@@ -149,159 +265,197 @@ export default function AdminDashboard() {
             />
           )}
           {tab === "Products" && (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p role="status" className="text-xs text-stone-500">
+                Showing {Math.min(visibleCount, filteredProducts.length)} of{" "}
+                {filteredProducts.length} matching listings
+              </p>
+              <label className="flex items-center gap-3 text-xs">
+                Stock view
+                <select
+                  aria-label="Filter admin stock"
+                  className={field}
+                  value={stockFilter}
+                  onChange={(e) => {
+                    setStockFilter(e.target.value);
+                    setVisibleCount(24);
+                  }}
+                >
+                  <option value="all">All listings</option>
+                  <option value="available">Available to order</option>
+                  <option value="low">Needs restocking</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </label>
+            </div>
+          )}
+          {tab === "Products" && (
             <div className="grid gap-4 xl:grid-cols-2">
-              {data.products
-                .filter((p) => matches(`${p.name} ${p.brand} ${p.id}`))
-                .map((p) => (
+              {filteredProducts.slice(0, visibleCount).map((p) => (
+                <form
+                  key={p.id}
+                  className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const v = Object.fromEntries(new FormData(e.currentTarget));
+                    mutate(`/products/${p.id}`, {
+                      price: Number(v.price),
+                      stock: Number(v.stock),
+                      moq: Number(v.moq),
+                      active: v.active === "on",
+                      ...Object.fromEntries(
+                        [
+                          "name",
+                          "brand",
+                          "company",
+                          "description",
+                          "flavor",
+                          "compositionNote",
+                          "preparationNote",
+                          "pack",
+                          "servingSize",
+                          "image",
+                        ]
+                          .filter((key) => v[key]?.trim())
+                          .map((key) => [key, v[key].trim()]),
+                      ),
+                    });
+                  }}
+                >
+                  <h3 className="font-bold">{p.name}</h3>
+                  <p className="text-xs text-stone-500">
+                    {p.pack} ·{" "}
+                    {data.suppliers.find((s) => s.id === p.supplierId)?.name}
+                  </p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      ["price", "Case price", p.price],
+                      ["stock", "Stock", p.stock],
+                      ["moq", "MOQ", p.moq],
+                    ].map(([name, label, value]) => (
+                      <label className="grid gap-2 text-xs" key={name}>
+                        {label}
+                        <input
+                          className={field}
+                          name={name}
+                          type="number"
+                          min={name === "stock" ? 0 : 1}
+                          defaultValue={value}
+                          required
+                        />
+                      </label>
+                    ))}
+                  </div>
+                  <details className="rounded-xl bg-stone-50 p-4">
+                    <summary className="cursor-pointer text-xs font-semibold">
+                      Edit product information & image
+                    </summary>
+                    <div className="mt-4 grid gap-3">
+                      {[
+                        ["name", "Product name"],
+                        ["brand", "Brand"],
+                        ["company", "Company"],
+                        ["description", "Description"],
+                        ["flavor", "Flavor"],
+                        ["compositionNote", "Composition notes"],
+                        ["preparationNote", "Preparation notes"],
+                        ["pack", "Case packaging"],
+                        ["servingSize", "Unit size"],
+                        ["image", "Image URL"],
+                      ].map(([name, label]) => (
+                        <label className="grid gap-2 text-xs" key={name}>
+                          {label}
+                          <input
+                            className={field}
+                            name={name}
+                            defaultValue={p[name] || ""}
+                          />
+                        </label>
+                      ))}
+                      <ImageUpload />
+                    </div>
+                  </details>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs">
+                      <input
+                        className="mr-2"
+                        name="active"
+                        type="checkbox"
+                        defaultChecked={p.active}
+                      />{" "}
+                      Active listing
+                    </label>
+                    <button
+                      className="rounded-xl bg-[#30213f] px-4 py-3 text-xs font-semibold text-white"
+                      disabled={busy}
+                    >
+                      Save product
+                    </button>
+                  </div>
+                </form>
+              ))}
+            </div>
+          )}
+          {tab === "Products" && visibleCount < filteredProducts.length && (
+            <button
+              className="rounded-xl border border-stone-200 bg-white px-6 py-3 text-sm font-semibold"
+              onClick={() => setVisibleCount((n) => n + 24)}
+            >
+              Show 24 more listings
+            </button>
+          )}
+          {tab === "Products" && !filteredProducts.length && (
+            <p className="rounded-2xl border border-dashed border-stone-200 p-8 text-center text-sm text-stone-500">
+              No listings match. Try another search or stock filter.
+            </p>
+          )}
+          {tab === "Dealers" && (
+            <div className="grid gap-4 xl:grid-cols-2">
+              {data.suppliers
+                .filter((s) => matches(`${s.name} ${s.location}`))
+                .map((s) => (
                   <form
-                    key={p.id}
+                    key={s.id}
                     className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
                     onSubmit={(e) => {
                       e.preventDefault();
                       const v = Object.fromEntries(
                         new FormData(e.currentTarget),
                       );
-                      mutate(`/products/${p.id}`, {
-                        price: Number(v.price),
-                        stock: Number(v.stock),
-                        moq: Number(v.moq),
-                        active: v.active === "on",
-                        ...Object.fromEntries(
-                          [
-                            "name",
-                            "brand",
-                            "company",
-                            "description",
-                            "flavor",
-                            "compositionNote",
-                            "preparationNote",
-                            "pack",
-                            "servingSize",
-                            "image",
-                          ]
-                            .filter((key) => v[key]?.trim())
-                            .map((key) => [key, v[key].trim()]),
+                      mutate(
+                        `/suppliers/${s.id}`,
+                        Object.fromEntries(
+                          Object.entries(v).filter(([, value]) => value !== ""),
                         ),
-                      });
+                      );
                     }}
                   >
-                    <h3 className="font-bold">{p.name}</h3>
-                    <p className="text-xs text-stone-500">
-                      {p.pack} ·{" "}
-                      {data.suppliers.find((s) => s.id === p.supplierId)?.name}
-                    </p>
-                    <div className="grid grid-cols-3 gap-3">
-                      {[
-                        ["price", "Case price", p.price],
-                        ["stock", "Stock", p.stock],
-                        ["moq", "MOQ", p.moq],
-                      ].map(([name, label, value]) => (
-                        <label className="grid gap-2 text-xs" key={name}>
-                          {label}
-                          <input
-                            className={field}
-                            name={name}
-                            type="number"
-                            min={name === "stock" ? 0 : 1}
-                            defaultValue={value}
-                            required
-                          />
-                        </label>
-                      ))}
-                    </div>
-                    <details className="rounded-xl bg-stone-50 p-4">
-                      <summary className="cursor-pointer text-xs font-semibold">
-                        Edit product information & image
-                      </summary>
-                      <div className="mt-4 grid gap-3">
-                        {[
-                          ["name", "Product name"],
-                          ["brand", "Brand"],
-                          ["company", "Company"],
-                          ["description", "Description"],
-                          ["flavor", "Flavor"],
-                          ["compositionNote", "Composition notes"],
-                          ["preparationNote", "Preparation notes"],
-                          ["pack", "Case packaging"],
-                          ["servingSize", "Unit size"],
-                          ["image", "Image URL"],
-                        ].map(([name, label]) => (
-                          <label className="grid gap-2 text-xs" key={name}>
-                            {label}
-                            <input
-                              className={field}
-                              name={name}
-                              defaultValue={p[name] || ""}
-                            />
-                          </label>
-                        ))}
-                        <ImageUpload />
-                      </div>
-                    </details>
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs">
+                    <h3 className="font-bold">{s.name}</h3>
+                    {[
+                      ["name", "Dealer name"],
+                      ["location", "Area"],
+                      ["address", "Address"],
+                      ["description", "About the dealer"],
+                      ["latitude", "Latitude"],
+                      ["longitude", "Longitude"],
+                    ].map(([name, label]) => (
+                      <label key={name} className="grid gap-2 text-xs">
+                        {label}
                         <input
-                          className="mr-2"
-                          name="active"
-                          type="checkbox"
-                          defaultChecked={p.active}
-                        />{" "}
-                        Active listing
+                          className={field}
+                          name={name}
+                          defaultValue={s[name] ?? ""}
+                        />
                       </label>
-                      <button
-                        className="rounded-xl bg-[#30213f] px-4 py-3 text-xs font-semibold text-white"
-                        disabled={busy}
-                      >
-                        Save product
-                      </button>
-                    </div>
+                    ))}
+                    <button
+                      className="rounded-xl bg-[#30213f] px-4 py-3 text-sm text-white"
+                      disabled={busy}
+                    >
+                      Save dealer
+                    </button>
                   </form>
                 ))}
-            </div>
-          )}
-          {tab === "Dealers" && (
-            <div className="grid gap-4 xl:grid-cols-2">
-              {data.suppliers.map((s) => (
-                <form
-                  key={s.id}
-                  className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const v = Object.fromEntries(new FormData(e.currentTarget));
-                    mutate(
-                      `/suppliers/${s.id}`,
-                      Object.fromEntries(
-                        Object.entries(v).filter(([, value]) => value !== ""),
-                      ),
-                    );
-                  }}
-                >
-                  <h3 className="font-bold">{s.name}</h3>
-                  {[
-                    ["name", "Dealer name"],
-                    ["location", "Area"],
-                    ["address", "Address"],
-                    ["description", "About the dealer"],
-                    ["latitude", "Latitude"],
-                    ["longitude", "Longitude"],
-                  ].map(([name, label]) => (
-                    <label key={name} className="grid gap-2 text-xs">
-                      {label}
-                      <input
-                        className={field}
-                        name={name}
-                        defaultValue={s[name] ?? ""}
-                      />
-                    </label>
-                  ))}
-                  <button
-                    className="rounded-xl bg-[#30213f] px-4 py-3 text-sm text-white"
-                    disabled={busy}
-                  >
-                    Save dealer
-                  </button>
-                </form>
-              ))}
             </div>
           )}
           {tab === "Customers & CRM" && (
