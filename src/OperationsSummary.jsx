@@ -56,7 +56,7 @@ export default function OperationsSummary({
   return (
     <section
       aria-label="Business activity"
-      className="mb-8 overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm"
+      className="mb-8 overflow-hidden rounded-3xl border border-line bg-surface shadow-sm"
     >
       <div className="grid lg:grid-cols-[1fr_1.15fr]">
         <div className="bg-[#30213f] p-6 text-white sm:p-8">
@@ -81,9 +81,7 @@ export default function OperationsSummary({
         <div className="p-6 sm:p-8">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold">Order pipeline</h3>
-            <span className="text-xs text-stone-500">
-              {orders.length} total
-            </span>
+            <span className="text-xs text-muted">{orders.length} total</span>
           </div>
           <div className="mt-6 grid grid-cols-4 gap-2">
             {stages.map((stage, i) => {
@@ -99,39 +97,39 @@ export default function OperationsSummary({
                     className={`mb-4 h-1.5 rounded-full ${i === 3 ? "bg-emerald-400" : "bg-[#b9a3cb]"}`}
                   />
                   <strong className="block text-2xl">{count}</strong>
-                  <span className="mt-2 block truncate text-[10px] capitalize text-stone-500 group-hover:text-[#30213f] sm:text-xs">
+                  <span className="mt-2 block truncate text-[10px] capitalize text-muted group-hover:text-ink sm:text-xs">
                     {stage}
                   </span>
                 </button>
               );
             })}
           </div>
-          <p className="mt-6 border-t border-stone-100 pt-4 text-xs leading-6 text-stone-500">
+          <p className="mt-6 border-t border-line pt-4 text-xs leading-6 text-muted">
             Counts reflect your current records. Cancelled orders are excluded
             from the pipeline.
           </p>
         </div>
       </div>
-      <div className="grid divide-y divide-stone-100 border-t border-stone-100 md:grid-cols-3 md:divide-x md:divide-y-0">
+      <div className="grid divide-y divide-line border-t border-line md:grid-cols-3 md:divide-x md:divide-y-0">
         {actions.map(({ icon: Icon, ...action }) => (
           <button
             key={action.title}
-            className="flex items-center gap-4 p-5 text-left transition hover:bg-stone-50 sm:p-6"
+            className="flex items-center gap-4 p-5 text-left transition hover:bg-subtle sm:p-6"
             onClick={() => onNavigate(action.view)}
           >
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#f2edf6] text-[#694b7e]">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-purple-soft text-accent">
               <Icon className="size-5" />
             </span>
             <span className="min-w-0 flex-1">
               <strong className="block text-sm">
                 {action.title}
-                <span className="ml-2 text-[#9061a6]">{action.count}</span>
+                <span className="ml-2 text-accent">{action.count}</span>
               </strong>
-              <span className="mt-1 block text-xs leading-5 text-stone-500">
+              <span className="mt-1 block text-xs leading-5 text-muted">
                 {action.detail}
               </span>
             </span>
-            <FiArrowUpRight className="shrink-0 text-stone-400" />
+            <FiArrowUpRight className="shrink-0 text-muted" />
           </button>
         ))}
       </div>

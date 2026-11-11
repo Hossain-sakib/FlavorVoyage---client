@@ -1,3 +1,6 @@
+import CreditsPage from "./CreditsPage";
+import NotificationCenter from "./NotificationCenter";
+import ThemeControl from "./ThemeControl";
 import OperationsSummary from "./OperationsSummary";
 import WorkspaceDialogs from "./WorkspaceDialogs";
 import { readRoute } from "./routing";
@@ -634,18 +637,26 @@ export default function App() {
       />
     );
   }
+  function openNotification(item) {
+    run(refresh);
+    if (item.conversationId) setConversationId(item.conversationId);
+    navigate(item.view);
+  }
   return (
     <div
       className={classes(
-        `app-shell ${["website", "product"].includes(view) ? "public-mode" : "market-mode"}`,
+        `app-shell ${["website", "product", "credits"].includes(view) ? "public-mode" : "market-mode"}`,
       )}
     >
-      {view === "product" ? (
+      {view === "credits" ? (
+        <CreditsPage onHome={() => navigate("website")} />
+      ) : view === "product" ? (
         <ProductPage
           key={productId}
           product={products.find((p) => p.id === productId)}
           products={products}
           user={user}
+          onNotification={openNotification}
           onAccount={() => open({ type: "auth" })}
           onProduct={openProduct}
           loading={loading}
@@ -669,6 +680,7 @@ export default function App() {
           error={products.length ? "" : error}
           onRetry={() => run(refresh)}
           user={user}
+          onNotification={openNotification}
           onMarketplace={(c) => {
             setCategory(c || "All drinks");
             setSupplier("");
@@ -739,29 +751,6 @@ export default function App() {
               ))}
             </nav>
             <div className={classes("sidebar-bottom")}>
-              <div className={classes("grow-card")}>
-                <span className={classes("grow-icon")}>✧</span>
-                <h3>
-                  Good business.
-                  <br />
-                  Better together.
-                </h3>
-                <p>
-                  {supplierMode
-                    ? "Bring your products to more neighborhood stores."
-                    : "Build relationships that help your store grow."}
-                </p>
-                <button
-                  onClick={() =>
-                    supplierMode
-                      ? open({ type: "product" })
-                      : navigate("suppliers")
-                  }
-                >
-                  {supplierMode ? "List a product" : "Meet our suppliers"}{" "}
-                  <FiArrowUpRight />
-                </button>
-              </div>
               <button
                 className={classes("profile")}
                 onClick={() =>
@@ -799,17 +788,23 @@ export default function App() {
                 </span>
               </div>
               <div className={classes("topbar-actions")}>
+                <ThemeControl />
+                {user && (
+                  <NotificationCenter
+                    key={user.id}
+                    onNavigate={openNotification}
+                  />
+                )}
                 <span className={classes("market-location")}>
                   <FiMapPin /> Bangladesh <span>· BDT</span>
                 </span>
-                <span className={classes("top-divider")} />
                 <button
                   className={classes("cart-button")}
                   onClick={() => setCartOpen(true)}
                   aria-label={`Open order basket, ${cart.length} products`}
                 >
                   <FiShoppingBag />
-                  <span>My basket</span>
+                  <span className="hidden sm:inline">My basket</span>
                   {cart.length > 0 && <b>{cart.length}</b>}
                 </button>
                 {!user && (
@@ -828,7 +823,9 @@ export default function App() {
               </div>
             </header>
             <main
-              className={classes("mx-auto max-w-[100rem] px-5 py-7 md:px-8")}
+              className={classes(
+                "mx-auto max-w-[100rem] min-w-0 px-4 py-6 sm:px-6 lg:px-8",
+              )}
             >
               {error && (
                 <div role="alert" className={classes("error-banner")}>
@@ -1350,7 +1347,12 @@ export default function App() {
                         </span>
                       </div>
                       {inventory.length ? (
-                        <div className={classes("table-scroll")}>
+                        <div
+                          className={classes("table-scroll")}
+                          tabIndex={0}
+                          role="region"
+                          aria-label="Inventory table, scroll horizontally for more columns"
+                        >
                           <table>
                             <thead>
                               <tr>

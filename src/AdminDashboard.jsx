@@ -14,7 +14,7 @@ const tabs = [
   "Audit log",
 ];
 const field =
-  "w-full rounded-xl border border-stone-200 bg-white px-3 py-3 text-sm";
+  "w-full rounded-xl border border-line bg-surface px-3 py-3 text-sm";
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
   const [tab, setTab] = useState("Overview");
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
     );
   return (
     <section aria-label="Admin dashboard" className="space-y-6">
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-6 text-amber-900">
+      <div className="rounded-2xl border border-line bg-warning-soft p-4 text-xs leading-6 text-warning">
         Protected administration. Changes are logged. Demo catalog prices and
         sample feedback remain labeled; this is not an accounting or tax
         reporting system.
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
         {tabs.map((name) => (
           <button
             key={name}
-            className={`shrink-0 rounded-xl px-4 py-3 text-sm font-semibold ${tab === name ? "bg-[#30213f] text-white" : "border border-stone-200 bg-white"}`}
+            className={`shrink-0 rounded-xl px-4 py-3 text-sm font-semibold ${tab === name ? "bg-action text-on-action" : "border border-line bg-surface"}`}
             onClick={() => {
               setTab(name);
               setSearch("");
@@ -98,13 +98,13 @@ export default function AdminDashboard() {
       {notice && (
         <p
           role="status"
-          className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-800"
+          className="rounded-xl bg-success-soft p-4 text-sm text-success"
         >
           {notice}
         </p>
       )}
       {error && (
-        <p role="alert" className="rounded-xl bg-red-50 p-4 text-red-700">
+        <p role="alert" className="rounded-xl bg-danger-soft p-4 text-danger">
           {error}{" "}
           <button
             className="underline"
@@ -132,9 +132,9 @@ export default function AdminDashboard() {
                 ].map(([label, value]) => (
                   <article
                     key={label}
-                    className="rounded-2xl border border-stone-200 bg-white p-6"
+                    className="rounded-2xl border border-line bg-surface p-6"
                   >
-                    <p className="text-xs text-stone-500">{label}</p>
+                    <p className="text-xs text-muted">{label}</p>
                     <strong className="mt-4 block text-3xl">{value}</strong>
                   </article>
                 ))}
@@ -176,14 +176,14 @@ export default function AdminDashboard() {
                 ].map(([title, destination, description]) => (
                   <button
                     key={destination}
-                    className="rounded-2xl border border-stone-200 bg-white p-6 text-left transition hover:border-purple-300 hover:shadow-sm"
+                    className="rounded-2xl border border-line bg-surface p-6 text-left transition hover:border-purple-300 hover:shadow-sm"
                     onClick={() => {
                       setTab(destination);
                       setSearch("");
                     }}
                   >
                     <strong className="text-sm">{title} ↗</strong>
-                    <p className="mt-3 text-xs leading-6 text-stone-500">
+                    <p className="mt-3 text-xs leading-6 text-muted">
                       {description}
                     </p>
                   </button>
@@ -211,7 +211,7 @@ export default function AdminDashboard() {
           )}
           {tab === "Quotes" && (
             <section className="space-y-3" aria-label="All quote requests">
-              <p className="text-sm text-stone-500">
+              <p className="text-sm text-muted">
                 A read-only view of marketplace negotiations. Buyers and dealers
                 manage responses in their own workspaces.
               </p>
@@ -220,17 +220,17 @@ export default function AdminDashboard() {
                 .map((q) => (
                   <article
                     key={q.id}
-                    className="rounded-2xl border border-stone-200 bg-white p-5"
+                    className="rounded-2xl border border-line bg-surface p-5"
                   >
                     <div className="flex flex-wrap justify-between gap-3">
                       <strong className="text-sm">
                         {q.reference || "Quote request"}
                       </strong>
-                      <span className="rounded-full bg-purple-50 px-3 py-1 text-xs capitalize text-purple-800">
+                      <span className="rounded-full bg-purple-soft px-3 py-1 text-xs capitalize text-accent">
                         {q.status}
                       </span>
                     </div>
-                    <p className="mt-3 text-xs text-stone-500">
+                    <p className="mt-3 text-xs text-muted">
                       {q.retailerName} → {q.supplierName}
                     </p>
                     <p className="mt-2 text-sm">
@@ -242,7 +242,7 @@ export default function AdminDashboard() {
                           .join(" · ")}
                       </span>
                       {q.note && (
-                        <span className="mt-2 block text-xs leading-6 text-stone-500">
+                        <span className="mt-2 block text-xs leading-6 text-muted">
                           {q.note}
                         </span>
                       )}
@@ -250,7 +250,7 @@ export default function AdminDashboard() {
                   </article>
                 ))}
               {!data.quotes?.length && (
-                <p className="rounded-2xl border border-dashed border-stone-200 p-8 text-center text-sm text-stone-500">
+                <p className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-muted">
                   No quote requests yet.
                 </p>
               )}
@@ -266,7 +266,7 @@ export default function AdminDashboard() {
           )}
           {tab === "Products" && (
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p role="status" className="text-xs text-stone-500">
+              <p role="status" className="text-xs text-muted">
                 Showing {Math.min(visibleCount, filteredProducts.length)} of{" "}
                 {filteredProducts.length} matching listings
               </p>
@@ -294,7 +294,7 @@ export default function AdminDashboard() {
               {filteredProducts.slice(0, visibleCount).map((p) => (
                 <form
                   key={p.id}
-                  className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
+                  className="space-y-4 rounded-2xl border border-line bg-surface p-5"
                   onSubmit={(e) => {
                     e.preventDefault();
                     const v = Object.fromEntries(new FormData(e.currentTarget));
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
                   }}
                 >
                   <h3 className="font-bold">{p.name}</h3>
-                  <p className="text-xs text-stone-500">
+                  <p className="text-xs text-muted">
                     {p.pack} ·{" "}
                     {data.suppliers.find((s) => s.id === p.supplierId)?.name}
                   </p>
@@ -346,7 +346,7 @@ export default function AdminDashboard() {
                       </label>
                     ))}
                   </div>
-                  <details className="rounded-xl bg-stone-50 p-4">
+                  <details className="rounded-xl bg-subtle p-4">
                     <summary className="cursor-pointer text-xs font-semibold">
                       Edit product information & image
                     </summary>
@@ -386,7 +386,7 @@ export default function AdminDashboard() {
                       Active listing
                     </label>
                     <button
-                      className="rounded-xl bg-[#30213f] px-4 py-3 text-xs font-semibold text-white"
+                      className="rounded-xl bg-action px-4 py-3 text-xs font-semibold text-on-action"
                       disabled={busy}
                     >
                       Save product
@@ -398,14 +398,14 @@ export default function AdminDashboard() {
           )}
           {tab === "Products" && visibleCount < filteredProducts.length && (
             <button
-              className="rounded-xl border border-stone-200 bg-white px-6 py-3 text-sm font-semibold"
+              className="rounded-xl border border-line bg-surface px-6 py-3 text-sm font-semibold"
               onClick={() => setVisibleCount((n) => n + 24)}
             >
               Show 24 more listings
             </button>
           )}
           {tab === "Products" && !filteredProducts.length && (
-            <p className="rounded-2xl border border-dashed border-stone-200 p-8 text-center text-sm text-stone-500">
+            <p className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-muted">
               No listings match. Try another search or stock filter.
             </p>
           )}
@@ -416,7 +416,7 @@ export default function AdminDashboard() {
                 .map((s) => (
                   <form
                     key={s.id}
-                    className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
+                    className="space-y-4 rounded-2xl border border-line bg-surface p-5"
                     onSubmit={(e) => {
                       e.preventDefault();
                       const v = Object.fromEntries(
@@ -449,7 +449,7 @@ export default function AdminDashboard() {
                       </label>
                     ))}
                     <button
-                      className="rounded-xl bg-[#30213f] px-4 py-3 text-sm text-white"
+                      className="rounded-xl bg-action px-4 py-3 text-sm text-on-action"
                       disabled={busy}
                     >
                       Save dealer
@@ -465,17 +465,17 @@ export default function AdminDashboard() {
                 .map((u) => (
                   <article
                     key={u.id}
-                    className="space-y-4 rounded-2xl border border-stone-200 bg-white p-5"
+                    className="space-y-4 rounded-2xl border border-line bg-surface p-5"
                   >
                     <div>
                       <h3 className="font-bold">{u.business}</h3>
-                      <p className="mt-2 text-xs text-stone-500">
+                      <p className="mt-2 text-xs text-muted">
                         {u.name} · {u.email || "Demo account"} · {u.role} ·{" "}
                         {u.orderCount} orders
                       </p>
                     </div>
                     <button
-                      className="text-xs font-semibold text-red-700 underline"
+                      className="text-xs font-semibold text-danger underline"
                       disabled={busy}
                       onClick={() =>
                         mutate(`/users/${u.id}`, { suspended: !u.suspended })
@@ -489,10 +489,10 @@ export default function AdminDashboard() {
                         .map((n) => (
                           <li
                             key={n.id}
-                            className="rounded-xl bg-stone-50 p-3 text-xs leading-6"
+                            className="rounded-xl bg-subtle p-3 text-xs leading-6"
                           >
                             {n.text}
-                            <small className="block text-stone-400">
+                            <small className="block text-muted">
                               {n.author}
                             </small>
                           </li>
@@ -522,7 +522,7 @@ export default function AdminDashboard() {
                         required
                       />
                       <button
-                        className="rounded-xl border border-stone-200 px-4 text-xs"
+                        className="rounded-xl border border-line px-4 text-xs"
                         disabled={busy}
                       >
                         Add note
@@ -541,19 +541,19 @@ export default function AdminDashboard() {
                 .map((o) => (
                   <article
                     key={o.id}
-                    className="rounded-2xl border border-stone-200 bg-white p-5"
+                    className="rounded-2xl border border-line bg-surface p-5"
                   >
                     <div className="flex flex-wrap justify-between gap-3">
                       <h3 className="font-bold">{o.reference}</h3>
-                      <span className="rounded-full bg-stone-100 px-3 py-1 text-xs">
+                      <span className="rounded-full bg-subtle px-3 py-1 text-xs">
                         {o.status}
                       </span>
                     </div>
-                    <p className="my-3 text-sm text-stone-500">
+                    <p className="my-3 text-sm text-muted">
                       {o.retailerName} → {o.supplierName}
                     </p>
                     <p className="text-sm font-bold">{money(o.total)}</p>
-                    <p className="mt-3 text-xs text-stone-500">
+                    <p className="mt-3 text-xs text-muted">
                       {o.address} · {o.phone}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
@@ -566,7 +566,7 @@ export default function AdminDashboard() {
                       ).map((status) => (
                         <button
                           key={status}
-                          className="rounded-xl border border-stone-200 px-3 py-2 text-xs capitalize"
+                          className="rounded-xl border border-line px-3 py-2 text-xs capitalize"
                           disabled={busy}
                           onClick={() => mutate(`/orders/${o.id}`, { status })}
                         >
@@ -581,7 +581,7 @@ export default function AdminDashboard() {
           )}
           {tab === "Content" && (
             <form
-              className="max-w-3xl space-y-5 rounded-2xl border border-stone-200 bg-white p-6"
+              className="max-w-3xl space-y-5 rounded-2xl border border-line bg-surface p-6"
               onSubmit={(e) => {
                 e.preventDefault();
                 mutate(
@@ -609,18 +609,18 @@ export default function AdminDashboard() {
                 </label>
               ))}
               <button
-                className="rounded-xl bg-[#30213f] px-5 py-3 font-semibold text-white"
+                className="rounded-xl bg-action px-5 py-3 font-semibold text-on-action"
                 disabled={busy}
               >
                 Publish content
               </button>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-muted">
                 Text only. HTML and scripts are never executed.
               </p>
             </form>
           )}
           {tab === "Audit log" && (
-            <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white p-5">
+            <div className="overflow-x-auto rounded-2xl border border-line bg-surface p-5">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr>
@@ -635,7 +635,7 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {data.auditLog.map((a) => (
-                    <tr className="border-t border-stone-100" key={a.id}>
+                    <tr className="border-t border-line" key={a.id}>
                       <td className="p-3">
                         {new Date(a.createdAt).toLocaleString("en-BD", {
                           timeZone: "Asia/Dhaka",

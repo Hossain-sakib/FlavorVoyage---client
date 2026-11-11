@@ -37,7 +37,7 @@ export default function ImageUpload() {
     }
   }
   return (
-    <div className="rounded-xl border border-dashed border-stone-300 p-4">
+    <div className="rounded-xl border border-dashed border-line p-4">
       <label className="grid gap-3 text-xs font-semibold">
         <span>
           <FiUploadCloud className="mr-2 inline" />
@@ -50,7 +50,7 @@ export default function ImageUpload() {
           onChange={upload}
         />
       </label>
-      <p className="mt-3 text-[10px] leading-5 text-stone-400">
+      <p className="mt-3 text-[10px] leading-5 text-muted">
         JPEG, PNG or WebP, up to 3 MB. Uploads are stored in Cloudinary. Save
         the product after uploading.
       </p>
@@ -62,7 +62,7 @@ export default function ImageUpload() {
         />
       )}
       {error && (
-        <p role="alert" className="mt-3 text-xs text-red-700">
+        <p role="alert" className="mt-3 text-xs text-danger">
           {error}
         </p>
       )}

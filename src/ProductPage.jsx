@@ -1,3 +1,5 @@
+import NotificationCenter from "./NotificationCenter";
+import ThemeControl from "./ThemeControl";
 import { classes } from "./ui/classes";
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -18,6 +20,7 @@ export default function ProductPage({
   onBuy,
   onMessage,
   user,
+  onNotification,
   onAccount,
   onProduct,
 }) {
@@ -42,15 +45,23 @@ export default function ProductPage({
     <div className={classes("fv-website detail-page")}>
       <header className={classes("detail-header")}>
         <button
-          className={classes("logo-home")}
+          className={classes(
+            "logo-home [&_.fv-wordmark]:hidden sm:[&_.fv-wordmark]:block",
+          )}
           aria-label="FlavorVoyage home"
           onClick={onHome}
         >
           <BrandLogo />
         </button>
-        <button className={classes("button secondary")} onClick={onCart}>
-          Your order
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeControl />
+          {user && onNotification && (
+            <NotificationCenter key={user.id} onNavigate={onNotification} />
+          )}
+          <button className={classes("button secondary")} onClick={onCart}>
+            Your order
+          </button>
+        </div>
       </header>
       <main className={classes("detail-main")}>
         <button className={classes("text-button")} onClick={onHome}>
@@ -134,7 +145,7 @@ export default function ProductPage({
             </section>
             <section
               className={classes(
-                "my-8 rounded-2xl border border-stone-200 bg-white p-6",
+                "my-8 rounded-2xl border border-line bg-surface p-6",
               )}
             >
               <h2 className={classes("text-xl font-bold")}>
@@ -142,7 +153,7 @@ export default function ProductPage({
               </h2>
               <dl className={classes("mt-5 grid gap-5 sm:grid-cols-3")}>
                 <div>
-                  <dt className={classes("text-xs text-stone-400")}>
+                  <dt className={classes("text-xs text-muted")}>
                     Company / brand group
                   </dt>
                   <dd className={classes("mt-2 text-sm font-semibold")}>
@@ -150,13 +161,13 @@ export default function ProductPage({
                   </dd>
                 </div>
                 <div>
-                  <dt className={classes("text-xs text-stone-400")}>Flavor</dt>
+                  <dt className={classes("text-xs text-muted")}>Flavor</dt>
                   <dd className={classes("mt-2 text-sm font-semibold")}>
                     {product.flavor || "Check label"}
                   </dd>
                 </div>
                 <div>
-                  <dt className={classes("text-xs text-stone-400")}>
+                  <dt className={classes("text-xs text-muted")}>
                     Composition notes
                   </dt>
                   <dd className={classes("mt-2 text-xs leading-6")}>
@@ -165,19 +176,17 @@ export default function ProductPage({
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-stone-400">Selected unit size</dt>
+                  <dt className="text-xs text-muted">Selected unit size</dt>
                   <dd className="mt-2 text-sm font-semibold">{selected}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-stone-400">Product format</dt>
+                  <dt className="text-xs text-muted">Product format</dt>
                   <dd className="mt-2 text-sm font-semibold">
                     {product.format || "See physical pack"}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-stone-400">
-                    Preparation & storage
-                  </dt>
+                  <dt className="text-xs text-muted">Preparation & storage</dt>
                   <dd className="mt-2 text-xs leading-6">
                     {product.preparationNote ||
                       "Follow the instructions printed on the product pack."}
@@ -198,7 +207,7 @@ export default function ProductPage({
             <section aria-label="More drinks to discover" className="my-10">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-500">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
                     Keep exploring
                   </p>
                   <h2 className="mt-2 text-xl font-bold">
@@ -207,7 +216,7 @@ export default function ProductPage({
                 </div>
                 <button
                   onClick={onHome}
-                  className="text-sm font-semibold text-[#694680]"
+                  className="text-sm font-semibold text-accent"
                 >
                   Explore all drinks ↗
                 </button>
@@ -225,19 +234,17 @@ export default function ProductPage({
                     <button
                       key={p.id}
                       onClick={() => onProduct(p.id)}
-                      className="rounded-2xl border border-stone-200 bg-white p-4 text-left transition hover:border-purple-300 hover:shadow-md"
+                      className="rounded-2xl border border-line bg-surface p-4 text-left transition hover:border-purple-300 hover:shadow-md"
                     >
                       <DrinkImage image={p.image} name={p.name} />
-                      <p className="mt-4 text-[10px] uppercase tracking-widest text-stone-500">
+                      <p className="mt-4 text-[10px] uppercase tracking-widest text-muted">
                         {p.brand}
                       </p>
                       <h3 className="mt-2 text-sm font-semibold">{p.name}</h3>
-                      <p className="mt-2 text-xs text-stone-500">{p.pack}</p>
+                      <p className="mt-2 text-xs text-muted">{p.pack}</p>
                       <p className="mt-3 text-sm font-bold">
                         {money(p.price)}{" "}
-                        <span className="font-normal text-stone-500">
-                          / case
-                        </span>
+                        <span className="font-normal text-muted">/ case</span>
                       </p>
                     </button>
                   ))}
@@ -256,6 +263,7 @@ export default function ProductPage({
 }
 ProductPage.propTypes = {
   user: PropTypes.object,
+  onNotification: PropTypes.func,
   onAccount: PropTypes.func.isRequired,
   onProduct: PropTypes.func.isRequired,
   product: PropTypes.object,

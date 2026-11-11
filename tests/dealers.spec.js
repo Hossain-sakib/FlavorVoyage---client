@@ -107,6 +107,19 @@ test("customer and demo dealer exchange persistent messages through their dashbo
   await expect(buyer.locator(".message-history")).toContainText(
     "Yes. Please confirm your delivery area.",
   );
+  await buyer
+    .getByRole("button", { name: /Notifications, \d+ unread/ })
+    .click();
+  await expect(buyer.getByRole("dialog")).toContainText(
+    "Open your private conversation to read and reply.",
+  );
+  await buyer
+    .getByRole("dialog")
+    .getByRole("button", { name: /Message from/ })
+    .first()
+    .click();
+  await expect(buyer).toHaveURL(/view=messages/);
+  await expect(buyer.getByRole("dialog")).toHaveCount(0);
   await buyer.setViewportSize({ width: 390, height: 844 });
   expect(
     await buyer.evaluate(

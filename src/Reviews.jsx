@@ -62,7 +62,7 @@ export default function Reviews({ productId, user, onAccount }) {
       {data?.demoCount > 0 && (
         <p
           className={classes(
-            "mb-5 rounded-xl bg-amber-50 p-4 text-xs text-amber-800",
+            "mb-5 rounded-xl bg-warning-soft p-4 text-xs text-warning",
           )}
         >
           Demo feedback is shown for preview and excluded from the rating

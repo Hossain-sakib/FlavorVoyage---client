@@ -3,13 +3,16 @@ const origin = "https://flavor-voyage.netlify.app";
 export function usePageMetadata(view, product, loading) {
   useEffect(() => {
     if (view === "product" && loading && !product) return;
-    const publicPage = view === "website" || (view === "product" && product);
+    const publicPage =
+      ["website", "credits"].includes(view) || (view === "product" && product);
     const title =
       product && view === "product"
         ? `${product.name} — packs & dealers | FlavorVoyage`
         : view === "website"
           ? "FlavorVoyage — Discover drinks & local dealers in Bangladesh"
-          : "Your workspace | FlavorVoyage";
+          : view === "credits"
+            ? "Image credits | FlavorVoyage"
+            : "Your workspace | FlavorVoyage";
     const description =
       product && view === "product"
         ? product.description
@@ -17,7 +20,9 @@ export function usePageMetadata(view, product, loading) {
     const url =
       product && view === "product"
         ? `${origin}/products/${encodeURIComponent(product.id)}`
-        : `${origin}/`;
+        : view === "credits"
+          ? `${origin}/credits`
+          : `${origin}/`;
     document.title = title;
     function meta(selector, attributes, content) {
       let element = document.head.querySelector(selector);

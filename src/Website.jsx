@@ -1,3 +1,5 @@
+import NotificationCenter from "./NotificationCenter";
+import ThemeControl from "./ThemeControl";
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import {
@@ -28,39 +30,15 @@ import DrinkImage from "./DrinkImage";
 import { drinkCategories } from "./drinkCategories";
 
 const categoryInfo = [
-  ["Soft drinks", "A little fizz. A lot of fun.", "pran-up", FiWind, "peach"],
-  [
-    "Fruit drinks",
-    "Put a little fruit in your day.",
-    "frooto",
-    FiSun,
-    "yellow",
-  ],
-  ["Energy drinks", "Discover your next pick.", "speed", FiZap, "lilac"],
-  ["Water", "The everyday essential.", "pran-water", FiDroplet, "sky"],
-  [
-    "Dairy & lassi",
-    "Chilled, creamy favorites.",
-    "pran-lacchi",
-    FiSmile,
-    "mint",
-  ],
-  ["Tea & coffee", "Make time for your cup.", "ispahani", FiCoffee, "rose"],
-  ["Malt drinks", "For your daily cup.", "horlicks", FiSun, "sand"],
-  [
-    "Drink mixes",
-    "A little mix. A shared jug.",
-    "tang-orange",
-    FiDroplet,
-    "orange",
-  ],
-  [
-    "Traditional sips",
-    "Familiar flavors, closer to home.",
-    "pran-labang",
-    FiHeart,
-    "mint",
-  ],
+  ["Soft drinks", "A little fizz. A lot of fun.", FiWind],
+  ["Fruit drinks", "Put a little fruit in your day.", FiSun],
+  ["Energy drinks", "Discover your next pick.", FiZap],
+  ["Water", "The everyday essential.", FiDroplet],
+  ["Dairy & lassi", "Chilled, creamy favorites.", FiSmile],
+  ["Tea & coffee", "Make time for your cup.", FiCoffee],
+  ["Malt drinks", "For your daily cup.", FiSun],
+  ["Drink mixes", "A little mix. A shared jug.", FiDroplet],
+  ["Traditional sips", "Familiar flavors, closer to home.", FiHeart],
 ];
 const faqs = [
   [
@@ -98,6 +76,7 @@ export default function Website({
   onAccount,
   onSupplier,
   user,
+  onNotification,
   siteContent,
 }) {
   const [menu, setMenu] = useState(false);
@@ -250,7 +229,7 @@ export default function Website({
     }
   }
   return (
-    <div className="fv-website min-h-screen bg-[#fffcf7] text-[#30213f] [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-600">
+    <div className="fv-website min-h-screen bg-canvas text-ink [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-600">
       <div className="bg-[#30213f] px-5 py-2.5 text-center text-xs text-white/80">
         {siteContent?.announcement ||
           "Discover your favorites. Connect with local dealers."}{" "}
@@ -261,14 +240,18 @@ export default function Website({
           Find nearby dealers ↗
         </button>
       </div>
-      <header className="fv-header sticky top-0 z-30 border-b border-stone-200/70 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 lg:px-8">
-          <a href="/" aria-label="FlavorVoyage home">
+      <header className="fv-header sticky top-0 z-30 border-b border-line/70 bg-surface/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <a
+            href="/"
+            aria-label="FlavorVoyage home"
+            className="shrink-0 [&_.fv-wordmark]:hidden sm:[&_.fv-wordmark]:block"
+          >
             <BrandLogo />
           </a>
           <nav
             aria-label="Main navigation"
-            className={`${menu ? "absolute left-0 right-0 top-full grid border-b bg-white p-6 shadow-lg" : "hidden"} gap-6 text-sm font-medium lg:static lg:flex lg:border-0 lg:p-0 lg:shadow-none`}
+            className={`${menu ? "absolute left-0 right-0 top-full grid border-b bg-surface p-6 shadow-lg" : "hidden"} gap-6 text-sm font-medium lg:static lg:flex lg:border-0 lg:p-0 lg:shadow-none`}
           >
             <button
               onClick={() => {
@@ -282,7 +265,7 @@ export default function Website({
             <button onClick={() => scrollTo("companies")}>Companies</button>
             <button onClick={onDealers}>Find a dealer</button>
             <button
-              className="rounded-xl bg-[#30213f] p-3 text-white sm:hidden"
+              className="rounded-xl bg-action p-3 text-on-action sm:hidden"
               onClick={onAccount}
             >
               {user ? "Your workspace" : "Sign in / create account"}
@@ -292,8 +275,12 @@ export default function Website({
             </button>
           </nav>
           <div className="flex items-center gap-2">
+            <ThemeControl />
+            {user && onNotification && (
+              <NotificationCenter key={user.id} onNavigate={onNotification} />
+            )}
             <button
-              className="relative rounded-full p-2 hover:bg-stone-100"
+              className="relative grid size-11 place-items-center rounded-full hover:bg-subtle"
               onClick={onCart}
               aria-label={`Your order, ${cartCount} products`}
             >
@@ -301,14 +288,14 @@ export default function Website({
               {cartCount > 0 && (
                 <span
                   aria-hidden="true"
-                  className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-amber-200 px-1 text-[10px] font-bold"
+                  className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-amber-200 px-1 text-xs font-bold text-[#30213f]"
                 >
                   {cartCount}
                 </span>
               )}
             </button>
             <button
-              className="rounded-full p-2 hover:bg-stone-100"
+              className="hidden size-11 place-items-center rounded-full hover:bg-subtle sm:grid"
               aria-label={`View ${favorites.length} saved drinks`}
               onClick={() => {
                 setOnlySaved(true);
@@ -321,13 +308,13 @@ export default function Website({
               <FiHeart className="size-5" />
             </button>
             <button
-              className="hidden rounded-xl bg-[#30213f] px-4 py-3 text-xs font-semibold text-white sm:block"
+              className="hidden rounded-xl bg-action px-4 py-3 text-xs font-semibold text-on-action sm:block"
               onClick={onAccount}
             >
               {user ? "Your workspace" : "Sign in"}
             </button>
             <button
-              className="fv-menu-button p-2 lg:hidden"
+              className="fv-menu-button grid size-11 place-items-center rounded-xl border border-line lg:hidden"
               aria-label={menu ? "Close menu" : "Open menu"}
               aria-expanded={menu}
               onClick={() => setMenu(!menu)}
@@ -338,74 +325,74 @@ export default function Website({
         </div>
       </header>
       <main className="fv-main">
-        <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-12 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-20">
+        <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-16">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-amber-800">
-              <span className="size-1.5 rounded-full bg-amber-500" /> Your
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-warning-soft px-4 py-2 text-xs font-bold uppercase tracking-widest text-warning">
+              <span className="size-1.5 rounded-full bg-warning-soft0" /> Your
               drinks destination, Bangladesh
             </span>
-            <h1 className="mt-7 text-5xl font-bold leading-[1.12] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 text-4xl font-bold leading-[1.12] tracking-tight sm:text-6xl lg:text-7xl">
               Your next
               <br />
               favorite{" "}
-              <em className="font-serif font-medium text-[#a76c35]">sip.</em>
-              <span className="mt-3 block text-3xl font-normal text-stone-400 sm:text-4xl">
+              <em className="font-serif font-medium text-warm-ink">sip.</em>
+              <span className="mt-3 block text-3xl font-normal text-muted sm:text-4xl">
                 Starts here.
               </span>
             </h1>
-            <p className="mt-6 max-w-lg text-base leading-8 text-stone-500">
+            <p className="mt-6 max-w-lg text-base leading-8 text-muted">
               Everyday favorites. New discoveries. Find drinks you love, compare
               the right pack, and connect with a dealer closer to you.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
-                className="rounded-xl bg-[#30213f] px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-[#30213f]/10 transition hover:-translate-y-1"
+                className="rounded-xl bg-action px-6 py-4 text-sm font-semibold text-on-action shadow-lg shadow-[#30213f]/10 transition motion-safe:hover:-translate-y-1"
                 onClick={() => scrollTo("discover")}
               >
                 Find your flavor <FiArrowUpRight className="ml-2 inline" />
               </button>
               <button
-                className="rounded-xl border border-stone-200 bg-white px-6 py-4 text-sm font-semibold"
+                className="rounded-xl border border-line bg-surface px-6 py-4 text-sm font-semibold"
                 onClick={onDealers}
               >
                 Explore local dealers
               </button>
             </div>
-            <div className="mt-10 flex gap-8 border-t border-stone-200 pt-7">
+            <div className="mt-8 grid grid-cols-3 gap-3 border-t border-line pt-6">
               <div>
                 <strong className="text-2xl">{drinks.length}</strong>
-                <span className="mt-1 block text-xs text-stone-500">
+                <span className="mt-1 block text-xs text-muted">
                   Drinks to discover
                 </span>
               </div>
               <div>
                 <strong className="text-2xl">{drinkCategories.length}</strong>
-                <span className="mt-1 block text-xs text-stone-500">
+                <span className="mt-1 block text-xs text-muted">
                   Drink categories
                 </span>
               </div>
               <div>
                 <strong className="text-2xl">{dealers.length}</strong>
-                <span className="mt-1 block text-xs text-stone-500">
+                <span className="mt-1 block text-xs text-muted">
                   Listed dealers
                 </span>
               </div>
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-lg">
-            <div className="overflow-hidden rounded-[2rem] border border-[#e9dfd1] bg-[#f3ebdf] p-6 sm:p-8">
+            <div className="overflow-hidden rounded-[2rem] border border-line bg-warm p-6 sm:p-8">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#795c3d]">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-warm-ink">
                   The drinks edit
                 </span>
-                <span className="rounded-full bg-white/80 px-3 py-1.5 text-[10px] text-stone-600">
+                <span className="hidden rounded-full bg-surface/80 px-3 py-1.5 sm:inline-flex text-xs text-muted">
                   Discover · Compare · Connect
                 </span>
               </div>
               <h2 className="mt-4 max-w-xs text-2xl font-semibold tracking-tight sm:text-3xl">
                 Familiar favorites.
                 <br />
-                <span className="font-serif italic text-[#94622e]">
+                <span className="font-serif italic text-warm-ink">
                   Fresh possibilities.
                 </span>
               </h2>
@@ -414,7 +401,7 @@ export default function Website({
                   <button
                     key={drink.id}
                     onClick={() => exploreProduct(drink)}
-                    className={`group min-w-0 rounded-2xl bg-white p-3 text-left shadow-sm transition motion-safe:hover:-translate-y-2 ${index === 1 ? "mt-5" : "mb-5"}`}
+                    className={`group min-w-0 rounded-2xl bg-surface p-3 text-left shadow-sm transition motion-safe:hover:-translate-y-2 ${index === 1 ? "mt-5" : "mb-5"}`}
                     aria-label={`Explore ${drink.name}`}
                   >
                     <div className="flex h-36 items-center justify-center [&_img]:max-h-full sm:h-48">
@@ -424,7 +411,7 @@ export default function Website({
                         className="h-full w-full object-contain"
                       />
                     </div>
-                    <span className="mt-3 block text-[9px] uppercase tracking-wider text-stone-400">
+                    <span className="mt-3 block text-[11px] uppercase tracking-wider text-muted">
                       {drink.brand}
                     </span>
                     <strong className="mt-1 block text-xs leading-5">
@@ -433,9 +420,9 @@ export default function Website({
                   </button>
                 ))}
               </div>
-              <div className="mt-5 flex items-start gap-3 rounded-xl border border-white/70 bg-white/60 p-4">
-                <FiCompass className="mt-1 size-5 shrink-0 text-[#94622e]" />
-                <p className="text-xs leading-6 text-stone-600">
+              <div className="mt-5 flex items-start gap-3 rounded-xl border border-line bg-surface/60 p-4">
+                <FiCompass className="mt-1 size-5 shrink-0 text-warm-ink" />
+                <p className="text-xs leading-6 text-muted">
                   One place to explore drinks, compare pack prices, and find
                   dealers across Bangladesh. Demo offers are labeled.
                 </p>
@@ -445,18 +432,18 @@ export default function Website({
         </section>
         <section
           id="categories"
-          className="border-y border-stone-200 bg-white py-8"
+          className="border-y border-line bg-surface py-8"
         >
-          <div className="mx-auto flex max-w-7xl gap-4 overflow-x-auto px-5 pb-2 lg:px-8">
-            {categoryInfo.map(([name, description, , Icon]) => (
+          <div className="mx-auto flex max-w-7xl gap-4 overflow-x-auto px-4 sm:px-6 pb-2 lg:px-8">
+            {categoryInfo.map(([name, description, Icon]) => (
               <button
                 key={name}
-                className="group min-w-36 flex-1 rounded-2xl border border-stone-100 p-5 text-left transition hover:border-amber-300 hover:bg-amber-50"
+                className="group min-w-36 flex-1 rounded-2xl border border-line p-5 text-left transition hover:border-amber-300 hover:bg-warning-soft"
                 onClick={() => selectCategory(name)}
               >
-                <Icon className="mb-4 size-6 text-amber-700" />
+                <Icon className="mb-4 size-6 text-warm-ink" />
                 <strong className="block text-xs">{name}</strong>
-                <span className="mt-2 block text-[10px] leading-5 text-stone-400">
+                <span className="mt-2 block text-xs leading-5 text-muted">
                   {description}
                 </span>
               </button>
@@ -465,16 +452,16 @@ export default function Website({
         </section>
         <section
           id="companies"
-          className="mx-auto max-w-7xl px-5 py-12 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
         >
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-700">
+              <span className="text-xs font-bold uppercase tracking-widest text-warm-ink">
                 Familiar names. More to explore.
               </span>
               <h2 className="mt-2 text-2xl font-bold">Explore by company</h2>
             </div>
-            <p className="text-xs text-stone-400">
+            <p className="text-xs text-muted">
               Brand inclusion does not imply an official partnership.
             </p>
           </div>
@@ -487,26 +474,26 @@ export default function Website({
                   setShowAll(true);
                   scrollTo("discover");
                 }}
-                className="flex h-32 flex-col items-center justify-center gap-4 rounded-2xl border border-stone-200 bg-white px-5 transition hover:border-amber-400 hover:shadow-md"
+                className="flex h-32 flex-col items-center justify-center gap-4 rounded-2xl border border-line bg-surface px-5 transition hover:border-amber-400 hover:shadow-md"
               >
                 <img
-                  className="h-10 max-w-32 object-contain"
+                  className="h-14 w-full max-w-32 rounded-lg bg-white p-2 object-contain"
                   src={c.logo}
                   alt={c.name + " logo"}
                   loading="lazy"
                 />
-                <span className="text-[10px] text-stone-500">{c.name}</span>
+                <span className="text-xs text-muted">{c.name}</span>
               </button>
             ))}
           </div>
         </section>
         <section
-          className="fv-discover mx-auto max-w-7xl scroll-mt-24 px-5 py-8 lg:px-8"
+          className="fv-discover mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
           id="discover"
         >
           <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-700">
+              <span className="text-xs font-bold uppercase tracking-widest text-warm-ink">
                 Made for every taste
               </span>
               <h2 className="mt-3 text-3xl font-bold">
@@ -514,7 +501,7 @@ export default function Website({
               </h2>
             </div>
             <button
-              className={`fv-favorite-filter rounded-xl border px-4 py-3 text-xs ${onlySaved ? "border-[#30213f] bg-[#30213f] text-white" : "border-stone-200 bg-white"}`}
+              className={`fv-favorite-filter rounded-xl border px-4 py-3 text-xs ${onlySaved ? "border-[#30213f] bg-action text-on-action" : "border-line bg-surface"}`}
               aria-pressed={onlySaved}
               onClick={() => {
                 setOnlySaved(!onlySaved);
@@ -526,8 +513,8 @@ export default function Website({
             </button>
           </div>
           <div className="grid gap-3 sm:grid-cols-[1fr_14rem]">
-            <label className="flex items-center gap-3 rounded-xl border border-stone-200 bg-white px-4">
-              <FiSearch className="text-stone-400" />
+            <label className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4">
+              <FiSearch className="text-muted" />
               <input
                 className="w-full min-w-0 bg-transparent py-4 text-sm outline-none"
                 value={search}
@@ -545,7 +532,7 @@ export default function Website({
               )}
             </label>
             <select
-              className="rounded-xl border border-stone-200 bg-white px-4 py-4 text-sm"
+              className="rounded-xl border border-line bg-surface px-4 py-4 text-sm"
               aria-label="Filter drink brands"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
@@ -556,10 +543,10 @@ export default function Website({
               ))}
             </select>
           </div>
-          <details className="my-4 rounded-2xl border border-stone-200 bg-white p-5">
+          <details className="my-4 rounded-2xl border border-line bg-surface p-5">
             <summary className="flex cursor-pointer flex-wrap items-center gap-2 text-sm font-semibold">
               <FiSliders /> Refine your search{" "}
-              <span className="ml-auto text-[10px] font-normal text-stone-400">
+              <span className="ml-auto text-xs font-normal text-muted">
                 Company · Distributor · Size · Ingredients
               </span>
             </summary>
@@ -587,7 +574,7 @@ export default function Website({
                 <label className="grid gap-2 text-xs font-medium" key={label}>
                   {label}
                   <input
-                    className="rounded-xl border border-stone-200 px-3 py-3 text-sm"
+                    className="rounded-xl border border-line px-3 py-3 text-sm"
                     value={value}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={placeholder}
@@ -597,7 +584,7 @@ export default function Website({
               <label className="grid gap-2 text-xs font-medium">
                 Pack / unit size
                 <select
-                  className="rounded-xl border border-stone-200 bg-white px-3 py-3 text-sm"
+                  className="rounded-xl border border-line bg-surface px-3 py-3 text-sm"
                   value={size}
                   onChange={(e) => setSize(e.target.value)}
                 >
@@ -610,7 +597,7 @@ export default function Website({
               <label className="grid gap-2 text-xs font-medium">
                 Maximum case price (BDT)
                 <input
-                  className="rounded-xl border border-stone-200 px-3 py-3 text-sm"
+                  className="rounded-xl border border-line px-3 py-3 text-sm"
                   type="number"
                   min="1"
                   value={maxPrice}
@@ -621,7 +608,7 @@ export default function Website({
               <label className="grid gap-2 text-xs font-medium">
                 Sort collection
                 <select
-                  className="rounded-xl border border-stone-200 bg-white px-3 py-3 text-sm"
+                  className="rounded-xl border border-line bg-surface px-3 py-3 text-sm"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
@@ -649,7 +636,7 @@ export default function Website({
                 Reset refinements
               </button>
             </div>
-            <p className="mt-4 text-[10px] leading-5 text-stone-400">
+            <p className="mt-4 text-xs leading-5 text-muted">
               Ingredient search uses product names and composition notes, not a
               certified complete ingredient or allergen list. Check the physical
               label.
@@ -662,7 +649,7 @@ export default function Website({
           >
             {["All drinks", ...drinkCategories].map((c) => (
               <button
-                className={`shrink-0 rounded-full border px-4 py-2.5 text-xs ${category === c ? "border-[#30213f] bg-[#30213f] text-white" : "border-stone-200 bg-white"}`}
+                className={`shrink-0 rounded-full border px-4 py-2.5 text-xs ${category === c ? "border-[#30213f] bg-action text-on-action" : "border-line bg-surface"}`}
                 key={c}
                 onClick={() => {
                   setCategory(c);
@@ -673,7 +660,7 @@ export default function Website({
               </button>
             ))}
           </div>
-          <div className="mb-5 flex flex-wrap justify-between gap-2 text-xs text-stone-400">
+          <div className="mb-5 flex flex-wrap justify-between gap-2 text-xs text-muted">
             <span>
               {loading
                 ? "Loading your collection…"
@@ -684,7 +671,7 @@ export default function Website({
           {error && (
             <div
               role="alert"
-              className="mb-5 rounded-xl bg-red-50 p-4 text-sm text-red-700"
+              className="mb-5 rounded-xl bg-danger-soft p-4 text-sm text-danger"
             >
               The collection could not be loaded.{" "}
               <button className="font-bold underline" onClick={onRetry}>
@@ -697,7 +684,7 @@ export default function Website({
               {[1, 2, 3, 4].map((n) => (
                 <div
                   key={n}
-                  className="h-80 animate-pulse rounded-2xl bg-stone-100"
+                  className="h-80 animate-pulse rounded-2xl bg-subtle"
                 />
               ))}
             </div>
@@ -707,15 +694,15 @@ export default function Website({
                 const listing = listingFor(p);
                 return (
                   <article
-                    className="fv-drink-card group overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl hover:shadow-stone-200/40"
+                    className="fv-drink-card group overflow-hidden rounded-2xl border border-line bg-surface transition duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl hover:shadow-black/5"
                     key={p.id}
                   >
-                    <div className="relative grid h-44 place-items-center sm:h-60 bg-gradient-to-b from-stone-50 to-white p-3 sm:p-6">
-                      <span className="absolute left-3 top-3 max-w-[70%] rounded-full bg-amber-50 px-3 py-1 text-[9px] font-medium text-amber-800">
+                    <div className="relative grid h-44 place-items-center sm:h-60 bg-subtle p-3 sm:p-6">
+                      <span className="absolute left-3 top-3 max-w-[calc(100%-4.5rem)] rounded-full bg-warning-soft px-3 py-1 text-[11px] font-medium text-warning">
                         {p.demoListing ? "Demo listing" : p.badge || p.category}
                       </span>
                       <button
-                        className="absolute right-3 top-3 z-10 rounded-full border border-stone-100 bg-white p-2"
+                        className="absolute right-3 top-3 z-10 rounded-full border border-line bg-surface p-2"
                         aria-label={`${favorites.includes(p.id) ? "Unsave" : "Save"} ${p.name}`}
                         aria-pressed={favorites.includes(p.id)}
                         onClick={() => save(p.id)}
@@ -728,7 +715,7 @@ export default function Website({
                         />
                       </button>
                       <button
-                        className="w-full transition duration-300 group-hover:scale-105 [&_img]:h-36 sm:[&_img]:h-44"
+                        className="w-full transition duration-300 motion-safe:group-hover:scale-105 [&_img]:h-36 sm:[&_img]:h-44"
                         onClick={() => exploreProduct(p)}
                         aria-label={`Discover ${p.name}`}
                       >
@@ -740,7 +727,7 @@ export default function Website({
                       </button>
                     </div>
                     <div className="p-3 sm:p-5">
-                      <span className="text-[9px] uppercase tracking-wider text-stone-400">
+                      <span className="text-[11px] uppercase tracking-wider text-muted">
                         {p.brand} · {listing.servingSize}
                       </span>
                       <a
@@ -759,16 +746,16 @@ export default function Website({
                         <strong className="text-sm sm:text-base">
                           From {money(priceFor(p))}
                         </strong>
-                        <small className="ml-1 text-[10px] text-stone-400">
+                        <small className="ml-1 text-xs text-muted">
                           / case
                         </small>
-                        <p className="mt-1 text-[10px] text-stone-400">
+                        <p className="mt-1 text-xs text-muted">
                           {listing.pack}
                         </p>
                       </div>
-                      <div className="mt-5 flex items-center justify-between border-t border-stone-100 pt-3">
+                      <div className="mt-5 flex items-center justify-between border-t border-line pt-3">
                         <button
-                          className="text-[10px] font-medium text-stone-500 hover:text-[#30213f]"
+                          className="text-xs font-medium text-muted hover:text-ink"
                           aria-label={`Compare ${p.name}`}
                           aria-pressed={compared.includes(listing.id)}
                           onClick={() => toggleCompare(listing.id)}
@@ -779,7 +766,7 @@ export default function Website({
                             : "Compare"}
                         </button>
                         <button
-                          className="grid size-8 place-items-center rounded-full bg-[#30213f] text-white"
+                          className="grid size-11 shrink-0 place-items-center rounded-full bg-action text-on-action"
                           aria-label={`Read about ${p.name}`}
                           onClick={() => exploreProduct(p)}
                         >
@@ -792,18 +779,18 @@ export default function Website({
               })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-stone-300 p-12 text-center">
+            <div className="rounded-2xl border border-dashed border-line p-12 text-center">
               <FiSearch className="mx-auto mb-4 size-8 text-stone-300" />
               <h3 className="text-xl font-bold">
                 {onlySaved
                   ? "Your favorites start with a heart."
                   : "No matching drinks"}
               </h3>
-              <p className="my-4 text-sm text-stone-500">
+              <p className="my-4 text-sm text-muted">
                 Try another brand, dealer, size or flavor.
               </p>
               <button
-                className="rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm"
+                className="rounded-xl border border-line bg-surface px-5 py-3 text-sm"
                 onClick={() => {
                   setSearch("");
                   setCategory("All drinks");
@@ -819,7 +806,7 @@ export default function Website({
           {!expanded && visible.length > 8 && (
             <div className="mt-8 text-center">
               <button
-                className="rounded-xl border border-[#30213f] px-6 py-4 text-sm font-semibold transition hover:bg-[#30213f] hover:text-white"
+                className="rounded-xl border border-[#30213f] px-6 py-4 text-sm font-semibold transition hover:bg-action hover:text-on-action"
                 onClick={() => setShowAll(true)}
               >
                 Explore all {visible.length} drinks{" "}
@@ -827,21 +814,21 @@ export default function Website({
               </button>
             </div>
           )}
-          <p className="mt-6 text-center text-[10px] leading-5 text-stone-400">
+          <p className="mt-6 text-center text-xs leading-5 text-muted">
             Images may show a product range. Pack size, ingredients and
             availability must be confirmed with the dealer.
           </p>
         </section>
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <RecentProducts products={products} onProduct={onProduct} />
         </div>
         <section
           id="for-business"
-          className="mx-auto my-16 max-w-7xl px-5 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
         >
           <div className="grid overflow-hidden rounded-3xl bg-[#30213f] lg:grid-cols-[1.3fr_1fr]">
             <div className="p-8 text-white md:p-12">
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-amber-200">
+              <span className="text-xs font-semibold uppercase tracking-widest text-amber-200">
                 Good business starts with a connection
               </span>
               <h2 className="mt-5 text-3xl font-bold leading-tight md:text-4xl">
@@ -855,7 +842,7 @@ export default function Website({
               </p>
               <div className="fv-business-actions mt-7 flex flex-wrap gap-3">
                 <button
-                  className="fv-button rounded-xl bg-amber-100 px-5 py-3 text-sm font-bold text-[#30213f]"
+                  className="fv-button rounded-xl bg-warning-soft px-5 py-3 text-sm font-bold text-ink"
                   onClick={() => onMarketplace()}
                 >
                   Explore marketplace ↗
@@ -880,10 +867,10 @@ export default function Website({
         </section>
         <section
           id="our-story"
-          className="mx-auto grid max-w-7xl gap-12 px-5 py-6 lg:grid-cols-2 lg:px-8"
+          className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:px-8"
         >
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-amber-700">
+            <span className="text-xs font-bold uppercase tracking-widest text-warm-ink">
               A little clarity, before your next sip
             </span>
             <h2 className="mt-4 text-3xl font-bold">
@@ -891,29 +878,27 @@ export default function Website({
               <br />
               For everyone.
             </h2>
-            <p className="mt-5 max-w-md text-sm leading-8 text-stone-500">
+            <p className="mt-5 max-w-md text-sm leading-8 text-muted">
               {siteContent?.aboutText ||
                 "Explore without an account. Save your favorites, compare the details and discover the people behind local drink distribution."}
             </p>
           </div>
-          <div className="divide-y divide-stone-200">
+          <div className="divide-y divide-line">
             {faqs.map(([question, answer]) => (
               <details key={question} className="py-5">
                 <summary className="cursor-pointer text-sm font-semibold">
                   {question}
                 </summary>
-                <p className="mt-4 text-sm leading-7 text-stone-500">
-                  {answer}
-                </p>
+                <p className="mt-4 text-sm leading-7 text-muted">{answer}</p>
               </details>
             ))}
           </div>
         </section>
       </main>
-      <footer className="fv-footer mt-16 border-t border-stone-200 bg-white px-5 py-10">
+      <footer className="fv-footer border-t border-line bg-surface px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-7">
           <BrandLogo />
-          <div className="flex flex-wrap gap-5 text-xs text-stone-500">
+          <div className="flex flex-wrap gap-5 text-xs text-muted">
             <button
               onClick={() => {
                 setOnlySaved(true);
@@ -927,9 +912,9 @@ export default function Website({
             </button>
             <button onClick={onDealers}>Find dealers</button>
             <button onClick={onAccount}>Your account</button>
-            <a href="/credits.html">Image credits</a>
+            <a href="/credits">Image credits</a>
           </div>
-          <span className="text-[10px] text-stone-400">
+          <span className="text-xs text-muted">
             {siteContent?.footerText ||
               `© ${new Date().getFullYear()} FlavorVoyage. Brand names belong to their owners.`}
           </span>
@@ -943,7 +928,7 @@ export default function Website({
         >
           <span className="text-xs">{compared.length} / 3 picks</span>
           <button
-            className="rounded-lg bg-amber-100 px-4 py-2 text-xs font-bold text-[#30213f] disabled:opacity-40"
+            className="rounded-lg bg-warning-soft px-4 py-2 text-xs font-bold text-ink disabled:opacity-40"
             disabled={compared.length < 2}
             onClick={() => setCompareOpen(true)}
           >
@@ -967,7 +952,7 @@ export default function Website({
       )}
       {favoriteNotice && (
         <p
-          className="fixed bottom-5 left-5 z-50 max-w-sm rounded-xl bg-white p-4 text-xs shadow-xl"
+          className="fixed bottom-5 left-5 z-50 max-w-sm rounded-xl bg-surface p-4 text-xs shadow-xl"
           role="status"
         >
           {favoriteNotice}
@@ -998,4 +983,5 @@ Website.propTypes = {
   onAccount: PropTypes.func,
   onSupplier: PropTypes.func,
   user: PropTypes.object,
+  onNotification: PropTypes.func,
 };

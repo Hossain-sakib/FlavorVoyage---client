@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
 
+// Exercise checkout, quote and inventory dialogs with the system dark preference.
+test.use({ colorScheme: "dark" });
+
 test("retailer browsing, direct order, cancellation, quote request, and mobile navigation", async ({
   page,
 }) => {

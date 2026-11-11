@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS controls", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   const product = {
     id: "admin-fixture",
     name: "Sample product",
@@ -117,4 +118,34 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
   await expect(
     page.getByRole("columnheader", { name: "Administrator", exact: true }),
   ).toBeVisible();
+  for (const theme of ["light", "dark"]) {
+    await page.getByLabel("Color theme", { exact: true }).selectOption(theme);
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const name of [
+        "Overview",
+        "Products",
+        "Dealers",
+        "Customers & CRM",
+        "Orders",
+        "Quotes",
+        "Content",
+        "Audit log",
+      ]) {
+        await page
+          .getByRole("region", { name: "Admin dashboard", exact: true })
+          .getByRole("button", { name, exact: true })
+          .click();
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth),
+          `${theme} admin ${name} ${width}`,
+        ).toBeLessThanOrEqual(width);
+        if (process.env.FV_CAPTURE_DIR && name === "Overview")
+          await page.screenshot({
+            path: `${process.env.FV_CAPTURE_DIR}/audit-admin-${theme}-${width}.png`,
+            fullPage: true,
+          });
+      }
+    }
+  }
 });

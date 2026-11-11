@@ -842,7 +842,7 @@ export default function WorkspaceDialogs({ context }) {
               </div>
               <ol
                 className={classes(
-                  "my-5 space-y-3 border-l-2 border-amber-200 pl-4",
+                  "my-5 space-y-3 border-l-2 border-line pl-4",
                 )}
                 aria-label="Order history"
               >
@@ -858,7 +858,7 @@ export default function WorkspaceDialogs({ context }) {
                     <strong className={classes("capitalize")}>
                       {entry.status}
                     </strong>
-                    <time className={classes("ml-3 text-stone-400")}>
+                    <time className={classes("ml-3 text-muted")}>
                       {new Date(entry.at).toLocaleString("en-BD", {
                         timeZone: "Asia/Dhaka",
                       })}

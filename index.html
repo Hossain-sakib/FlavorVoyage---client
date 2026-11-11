@@ -1,7 +1,12 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html
+  lang="en"
+  data-theme="light"
+  class="[color-scheme:light] dark:[color-scheme:dark] dark:[--color-action:#dfc2f1] dark:[--color-on-action:#30213f] dark:[--color-canvas:#17131e] dark:[--color-workspace:#17131e] dark:[--color-surface:#241e2d] dark:[--color-subtle:#302937] dark:[--color-ink:#f4eef8] dark:[--color-muted:#bbb2c5] dark:[--color-line:#44394f] dark:[--color-accent:#d8b4f0] dark:[--color-warm:#302737] dark:[--color-warm-ink:#e8c08d] dark:[--color-warning-soft:#3d301e] dark:[--color-warning:#f5cf88] dark:[--color-success-soft:#18352d] dark:[--color-success:#86d9b5] dark:[--color-danger-soft:#3d222c] dark:[--color-danger:#fca5a5] dark:[--color-info-soft:#202d48] dark:[--color-info:#b3cdff] dark:[--color-purple-soft:#372945]"
+>
   <head>
     <meta charset="UTF-8" />
+    <script src="/theme-init.js"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261111" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#2d2039" />
@@ -24,7 +29,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <title>FlavorVoyage — Find your favorite sip</title>
   </head>
-  <body>
+  <body
+    class="min-w-0 bg-canvas text-ink antialiased [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-purple-500 [&_button]:touch-manipulation [&_button]:cursor-pointer [&_summary]:cursor-pointer [&_input]:accent-purple-700 [&_input]:text-ink [&_textarea]:text-ink [&_select]:text-ink"
+  >
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

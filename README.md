@@ -7,10 +7,12 @@ local dealers, message them, request quotes and buy by the case.
 ## Architecture
 
 - React with Tailwind CSS 4 through Vite. There are no handwritten CSS stylesheets;
-  `src/index.css` imports Tailwind, and `src/ui/classes.js` contains shared utility recipes.
+  `src/index.css` defines the Tailwind palette, and `src/ui/classes.js` contains shared utility recipes.
 - `Website.jsx` handles discovery and company, distributor, size, price and keyword filters.
 - Product pages include variants, composition notes, comparison, reviews and recently viewed items.
 - `DealerFinder`, `Inbox`, `AddressBook` and `AdminDashboard` are separate features.
+- `ThemeControl` saves light/dark/system preferences. Semantic Tailwind colors are shared by all pages and dialogs; `public/theme-init.js` applies the preference before first paint.
+- `NotificationCenter` polls private activity every 15 seconds while visible. Read status is stored on the server; notifications link to orders, quotes and private conversations. No browser-push or email delivery is enabled.
 - Firebase Google sign-in exchanges a verified ID token for a server HttpOnly session.
 - Product images uploaded by dealers/admins go through the authenticated Cloudinary API.
 - Every product, price, variant, stock quantity, order and conversation is read from the API/database.
@@ -53,3 +55,12 @@ See the server's `PRODUCTION_READINESS.md` for operational limits and remaining 
 ## Portfolio-only live previews
 
 Public pages may be framed only by `https://sakib-studio.netlify.app`. Private/admin/account/API routes retain `X-Frame-Options: DENY` and `frame-ancestors 'none'`. Keep these exceptions when regenerating Netlify headers. This permits the owner’s responsive live portfolio previews without opening the site to arbitrary framing.
+
+## Layout checks
+
+`tests/layout-theme.spec.js` covers public, buyer and supplier views at 320, 390,
+768, 1024, 1440 and 1920 pixels. Admin tabs are checked at mobile, tablet and desktop
+widths. Set `FV_CAPTURE_DIR` to an existing writable directory to capture audit
+screenshots. Product photos use `object-contain`; official logo images keep a white
+canvas for legibility in either theme. Inventory and comparison tables scroll within
+their own regions.

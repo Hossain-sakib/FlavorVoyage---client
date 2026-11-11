@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import ImageUpload from "./ImageUpload";
 import { drinkCategories } from "./drinkCategories";
 const field =
-  "w-full rounded-xl border border-stone-200 bg-white px-3 py-3 text-sm";
+  "w-full rounded-xl border border-line bg-surface px-3 py-3 text-sm";
 export default function AdminProductForm({
   products,
   suppliers,
@@ -21,7 +21,7 @@ export default function AdminProductForm({
     }
   }
   return (
-    <details className="rounded-2xl border border-amber-200 bg-white p-5">
+    <details className="rounded-2xl border border-line bg-surface p-5">
       <summary className="cursor-pointer text-sm font-bold">
         Add a new product or pack variant
       </summary>
@@ -124,12 +124,12 @@ export default function AdminProductForm({
           />
         </label>
         <button
-          className="rounded-xl bg-[#30213f] px-5 py-3 text-sm font-bold text-white disabled:opacity-50"
+          className="rounded-xl bg-action px-5 py-3 text-sm font-bold text-on-action disabled:opacity-50"
           disabled={busy}
         >
           {busy ? "Creating…" : "Create product"}
         </button>
-        <p className="text-xs text-stone-500">
+        <p className="text-xs text-muted">
           The record is saved in the datastore immediately. New static SEO pages
           are generated at the next site build.
         </p>

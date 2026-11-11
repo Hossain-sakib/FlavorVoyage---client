@@ -1,4 +1,5 @@
 import { renderToString } from "react-dom/server";
+import CreditsPage from "../src/CreditsPage.jsx";
 import Website from "../src/Website.jsx";
 import ProductPage from "../src/ProductPage.jsx";
 import { readFileSync } from "node:fs";
@@ -7,6 +8,13 @@ const products = snapshot.products;
 const dealers = snapshot.dealers;
 const noop = () => {};
 export const pages = [
+  {
+    path: "/credits",
+    title: "Image credits | FlavorVoyage",
+    description:
+      "Original image sources and attribution for the FlavorVoyage beverage catalog.",
+    html: renderToString(<CreditsPage onHome={noop} />),
+  },
   {
     path: "/",
     title: "FlavorVoyage — Discover drinks & local dealers in Bangladesh",

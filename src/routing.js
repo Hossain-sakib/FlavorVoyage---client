@@ -1,5 +1,6 @@
 const views = new Set([
   "website",
+  "credits",
   "product",
   "catalog",
   "overview",
@@ -13,6 +14,8 @@ const views = new Set([
   "admin",
 ]);
 export function readRoute(current = window.location) {
+  if (["/credits", "/credits/", "/credits.html"].includes(current.pathname))
+    return { view: "credits", productId: "" };
   const query = new URLSearchParams(current.search);
   let productId = query.get("product") || "";
   if (!productId && current.pathname.startsWith("/products/")) {

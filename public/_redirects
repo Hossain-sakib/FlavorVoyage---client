@@ -1,2 +1,3 @@
+/credits.html /credits 301
 /api/* /.netlify/functions/api/api/:splat 200!
 /* /index.html 200

@@ -5,20 +5,19 @@ import { FiCameraOff } from "react-icons/fi";
 
 export default function DrinkImage({ type = "drink", image, name }) {
   const [failedSource, setFailedSource] = useState(null);
-  const source = image;
-  if (source && failedSource !== source)
+  if (image && failedSource !== image)
     return (
       <img
         className={classes("product-art drink-packshot")}
-        src={source}
+        src={image}
         alt={name || `${type.replaceAll("-", " ")} drink pack`}
         loading="lazy"
-        onError={() => setFailedSource(source)}
+        onError={() => setFailedSource(image)}
       />
     );
   return (
     <div
-      className={classes("product-art")}
+      className="grid h-44 w-full content-center justify-items-center gap-3 rounded-xl bg-subtle p-4 text-center text-xs text-muted"
       role="img"
       aria-label={`${name || "Product"}: photo unavailable`}
     >
