@@ -789,7 +789,7 @@ export default function App() {
               </div>
               <div className={classes("topbar-actions")}>
                 <ThemeControl />
-                {user && (
+                {user?.id && (
                   <NotificationCenter
                     key={user.id}
                     onNavigate={openNotification}

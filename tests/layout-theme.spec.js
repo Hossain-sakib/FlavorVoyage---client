@@ -1,3 +1,4 @@
+import { setTheme } from "./theme";
 import { test, expect } from "@playwright/test";
 const widths = [320, 390, 768, 1024, 1440, 1920];
 async function fits(page, context) {
@@ -40,7 +41,7 @@ test("public pages and account views fit six widths in both themes", async ({
     for (const width of widths) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/");
-      await page.getByLabel("Color theme", { exact: true }).selectOption(theme);
+      await setTheme(page, theme);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       for (const route of [
         "/",
@@ -72,11 +73,11 @@ test("public pages and account views fit six widths in both themes", async ({
   }
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await page.getByLabel("Color theme", { exact: true }).selectOption("system");
+  await setTheme(page, "light");
   await page.emulateMedia({ colorScheme: "light" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.emulateMedia({ colorScheme: "dark" });
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   expect(errors).toEqual([]);
 });
 test("supplier inventory, settings and notifications are usable at small widths", async ({

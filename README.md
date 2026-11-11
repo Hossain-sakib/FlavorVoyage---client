@@ -11,7 +11,7 @@ local dealers, message them, request quotes and buy by the case.
 - `Website.jsx` handles discovery and company, distributor, size, price and keyword filters.
 - Product pages include variants, composition notes, comparison, reviews and recently viewed items.
 - `DealerFinder`, `Inbox`, `AddressBook` and `AdminDashboard` are separate features.
-- `ThemeControl` saves light/dark/system preferences. Semantic Tailwind colors are shared by all pages and dialogs; `public/theme-init.js` applies the preference before first paint.
+- `ThemeControl` is a single light/dark button. Light is the default; explicit choices are saved. Semantic Tailwind colors are shared by all pages and dialogs; `public/theme-init.js` applies the preference before first paint.
 - `NotificationCenter` polls private activity every 15 seconds while visible. Read status is stored on the server; notifications link to orders, quotes and private conversations. No browser-push or email delivery is enabled.
 - Firebase Google sign-in exchanges a verified ID token for a server HttpOnly session.
 - Product images uploaded by dealers/admins go through the authenticated Cloudinary API.

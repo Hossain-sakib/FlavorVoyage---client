@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 
-// Exercise checkout, quote and inventory dialogs with the system dark preference.
-test.use({ colorScheme: "dark" });
+// Exercise checkout, quote and inventory dialogs with an explicit dark preference.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("fv-theme", "dark"));
+});
 
 test("retailer browsing, direct order, cancellation, quote request, and mobile navigation", async ({
   page,

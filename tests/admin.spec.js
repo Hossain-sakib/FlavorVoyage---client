@@ -1,3 +1,4 @@
+import { setTheme } from "./theme";
 import { test, expect } from "@playwright/test";
 
 test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS controls", async ({
@@ -119,7 +120,7 @@ test("authorized admin UI saves catalog changes and exposes CRM, dealer and CMS 
     page.getByRole("columnheader", { name: "Administrator", exact: true }),
   ).toBeVisible();
   for (const theme of ["light", "dark"]) {
-    await page.getByLabel("Color theme", { exact: true }).selectOption(theme);
+    await setTheme(page, theme);
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       for (const name of [

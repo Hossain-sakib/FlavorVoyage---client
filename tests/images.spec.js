@@ -1,3 +1,4 @@
+import { setTheme } from "./theme";
 import { test, expect } from "@playwright/test";
 test("all discoverable packshots and company logos load without cropping", async ({
   page,
@@ -35,7 +36,7 @@ test("all discoverable packshots and company logos load without cropping", async
       ),
   ).toBe(true);
   for (const mode of ["light", "dark"]) {
-    await page.getByLabel("Color theme", { exact: true }).selectOption(mode);
+    await setTheme(page, mode);
     expect(
       await page
         .locator("#companies img")

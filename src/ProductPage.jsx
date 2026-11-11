@@ -55,7 +55,7 @@ export default function ProductPage({
         </button>
         <div className="flex items-center gap-2">
           <ThemeControl />
-          {user && onNotification && (
+          {user?.id && onNotification && (
             <NotificationCenter key={user.id} onNavigate={onNotification} />
           )}
           <button className={classes("button secondary")} onClick={onCart}>

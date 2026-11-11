@@ -276,7 +276,7 @@ export default function Website({
           </nav>
           <div className="flex items-center gap-2">
             <ThemeControl />
-            {user && onNotification && (
+            {user?.id && onNotification && (
               <NotificationCenter key={user.id} onNavigate={onNotification} />
             )}
             <button
