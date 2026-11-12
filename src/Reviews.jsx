@@ -1,3 +1,4 @@
+import Select from "./ui/Select";
 import { classes } from "./ui/classes";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -120,7 +121,8 @@ export default function Reviews({ productId, user, onAccount }) {
               </h3>
               <label>
                 Your rating
-                <select
+                <Select
+                  aria-label="Your rating"
                   value={rating}
                   onChange={(e) => setRating(Number(e.target.value))}
                 >
@@ -129,7 +131,7 @@ export default function Reviews({ productId, user, onAccount }) {
                       {n} stars
                     </option>
                   ))}
-                </select>
+                </Select>
               </label>
               <label>
                 Your experience

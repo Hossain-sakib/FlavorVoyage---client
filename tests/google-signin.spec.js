@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 test("Google is offered on sign-in and sign-up and handles an unavailable Google service without submitting the email form", async ({
   page,

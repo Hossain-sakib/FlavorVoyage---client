@@ -1,5 +1,5 @@
 import { setTheme } from "./theme";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 const widths = [320, 390, 768, 1024, 1440, 1920];
 async function fits(page, context) {
   const overflow = await page.evaluate(() => ({

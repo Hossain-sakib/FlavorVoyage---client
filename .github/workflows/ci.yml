@@ -2,7 +2,9 @@ name: Client checks
 on: [push, pull_request]
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    env:
+      CHROMIUM_PATH: /usr/bin/google-chrome
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,8 +22,9 @@ jobs:
         working-directory: FlavorVoyage---client
       - run: npm run lint && npm run format:check && npm run build
         working-directory: FlavorVoyage---client
-      - run: npx playwright install --with-deps chromium
-        working-directory: FlavorVoyage---client
+      # The hosted runner already includes Chrome and its system libraries.
+      # Avoid an apt/network dependency before every browser test run.
+      - run: test -x "$CHROMIUM_PATH" && "$CHROMIUM_PATH" --version
       - run: npm run test:e2e
         working-directory: FlavorVoyage---client
       - run: npm audit --omit=dev

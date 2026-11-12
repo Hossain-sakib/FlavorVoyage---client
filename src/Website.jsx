@@ -1,3 +1,5 @@
+import siteImages from "./site-images.json";
+import Select from "./ui/Select";
 import NotificationCenter from "./NotificationCenter";
 import ThemeControl from "./ThemeControl";
 import { useMemo, useState } from "react";
@@ -531,7 +533,7 @@ export default function Website({
                 </button>
               )}
             </label>
-            <select
+            <Select
               className="rounded-xl border border-line bg-surface px-4 py-4 text-sm"
               aria-label="Filter drink brands"
               value={brand}
@@ -541,7 +543,7 @@ export default function Website({
               {brands.map((b) => (
                 <option key={b}>{b}</option>
               ))}
-            </select>
+            </Select>
           </div>
           <details className="my-4 rounded-2xl border border-line bg-surface p-5">
             <summary className="flex cursor-pointer flex-wrap items-center gap-2 text-sm font-semibold">
@@ -583,7 +585,8 @@ export default function Website({
               ))}
               <label className="grid gap-2 text-xs font-medium">
                 Pack / unit size
-                <select
+                <Select
+                  aria-label="Pack / unit size"
                   className="rounded-xl border border-line bg-surface px-3 py-3 text-sm"
                   value={size}
                   onChange={(e) => setSize(e.target.value)}
@@ -592,7 +595,7 @@ export default function Website({
                   {sizes.map((s) => (
                     <option key={s}>{s}</option>
                   ))}
-                </select>
+                </Select>
               </label>
               <label className="grid gap-2 text-xs font-medium">
                 Maximum case price (BDT)
@@ -607,7 +610,8 @@ export default function Website({
               </label>
               <label className="grid gap-2 text-xs font-medium">
                 Sort collection
-                <select
+                <Select
+                  aria-label="Sort collection"
                   className="rounded-xl border border-line bg-surface px-3 py-3 text-sm"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
@@ -617,7 +621,7 @@ export default function Website({
                   <option value="price-high">Case price: high to low</option>
                   <option value="name">Name: A–Z</option>
                   <option value="new">Newest additions</option>
-                </select>
+                </Select>
               </label>
             </div>
             <div className="mt-5 flex flex-wrap justify-between gap-4 text-xs">
@@ -857,7 +861,7 @@ export default function Website({
             </div>
             <img
               className="h-64 w-full object-cover lg:h-full lg:max-h-[28rem]"
-              src="/images/stories/tea.jpg"
+              src={siteImages["/images/stories/tea.jpg"]}
               alt="Tea served for a shared break"
               loading="lazy"
               width="640"
@@ -914,6 +918,26 @@ export default function Website({
             <button onClick={onAccount}>Your account</button>
             <a href="/credits">Image credits</a>
           </div>
+          {(siteContent?.contactEmail || siteContent?.supportPhone) && (
+            <div className="flex flex-wrap items-center gap-4 text-xs text-muted">
+              {siteContent.contactEmail && (
+                <a
+                  className="min-h-11 inline-flex items-center underline underline-offset-4"
+                  href={`mailto:${siteContent.contactEmail}`}
+                >
+                  {siteContent.contactEmail}
+                </a>
+              )}
+              {siteContent.supportPhone && (
+                <a
+                  className="min-h-11 inline-flex items-center underline underline-offset-4"
+                  href={`tel:${siteContent.supportPhone.replace(/[^+\d]/g, "")}`}
+                >
+                  {siteContent.supportPhone}
+                </a>
+              )}
+            </div>
+          )}
           <span className="text-xs text-muted">
             {siteContent?.footerText ||
               `© ${new Date().getFullYear()} FlavorVoyage. Brand names belong to their owners.`}

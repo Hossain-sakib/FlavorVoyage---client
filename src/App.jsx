@@ -1,3 +1,4 @@
+import Select from "./ui/Select";
 import CreditsPage from "./CreditsPage";
 import NotificationCenter from "./NotificationCenter";
 import ThemeControl from "./ThemeControl";
@@ -1095,7 +1096,7 @@ export default function App() {
                             </button>
                           )}
                         </label>
-                        <select
+                        <Select
                           aria-label="Filter by supplier"
                           value={supplier}
                           onChange={(e) => setSupplier(e.target.value)}
@@ -1106,8 +1107,8 @@ export default function App() {
                               {s.name}
                             </option>
                           ))}
-                        </select>
-                        <select
+                        </Select>
+                        <Select
                           aria-label="Sort products"
                           value={sort}
                           onChange={(e) => setSort(e.target.value)}
@@ -1115,7 +1116,7 @@ export default function App() {
                           <option value="featured">Featured first</option>
                           <option value="low">Price: low to high</option>
                           <option value="high">Price: high to low</option>
-                        </select>
+                        </Select>
                       </div>
                       <div className={classes("category-tabs")}>
                         {categories.map((c, i) => (

@@ -1,5 +1,5 @@
 import { setTheme } from "./theme";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 test("notification unread state, mark all and navigation work in dark mode", async ({
   page,
 }) => {

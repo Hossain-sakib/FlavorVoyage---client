@@ -1,32 +1,32 @@
 [
   {
-    "name": "Nestlé",
+    "name": "Nestl\u00e9",
     "website": "https://www.nestle.com",
-    "logo": "/images/companies/nestle.svg",
+    "logo": "https://res.cloudinary.com/wiooqx7y/image/upload/v1794413164/flavorvoyage/site/8be965825d368ced-nestle.svg",
     "source": "https://www.nestle.com/themes/custom/da_vinci_code/logo.svg"
   },
   {
     "name": "Akij Food & Beverage",
     "website": "https://www.akijfood.com",
-    "logo": "/images/companies/akij.svg",
+    "logo": "https://res.cloudinary.com/wiooqx7y/image/upload/v1794413160/flavorvoyage/site/f084fbdf51bd4e68-akij.svg",
     "source": "https://www.akijfood.com/AFBL.svg"
   },
   {
     "name": "The Coca-Cola Company",
     "website": "https://www.coca-colacompany.com",
-    "logo": "/images/companies/coca-cola.svg",
+    "logo": "https://res.cloudinary.com/wiooqx7y/image/upload/v1794413162/flavorvoyage/site/fb264c0d0e5a1131-coca-cola.svg",
     "source": "https://www.coca-colacompany.com/content/dam/corporate/us/en/header-footer/Header%20Icon.svg"
   },
   {
     "name": "PRAN Foods",
     "website": "https://www.pranfoods.net",
-    "logo": "/images/companies/pran.png",
+    "logo": "https://res.cloudinary.com/wiooqx7y/image/upload/v1794413167/flavorvoyage/site/5c1f5237f092819c-pran.png",
     "source": "https://www.pranfoods.net/assets/new-frontend/files/PRAN%20Logo_0.png"
   },
   {
     "name": "PepsiCo",
     "website": "https://www.pepsico.com",
-    "logo": "/images/companies/pepsico.png",
+    "logo": "https://res.cloudinary.com/wiooqx7y/image/upload/v1794413166/flavorvoyage/site/2f41d0dd23ed71ee-pepsico.png",
     "source": "https://digitalassets.pepsico.com/transform/fe5c5aad-b8cd-4dd5-a1b2-d79302ff1f1c/PepsiCo-Logo-header?w=512&q=75"
   }
 ]

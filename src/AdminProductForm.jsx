@@ -1,3 +1,4 @@
+import Select from "./ui/Select";
 import PropTypes from "prop-types";
 import ImageUpload from "./ImageUpload";
 import { drinkCategories } from "./drinkCategories";
@@ -47,15 +48,20 @@ export default function AdminProductForm({
           ))}
           <label className="grid gap-2 text-xs font-medium">
             New product category
-            <select name="category" className={field}>
+            <Select
+              aria-label="New product category"
+              name="category"
+              className={field}
+            >
               {drinkCategories.map((c) => (
                 <option key={c}>{c}</option>
               ))}
-            </select>
+            </Select>
           </label>
           <label className="grid gap-2 text-xs font-medium">
             Dealer for new product
-            <select
+            <Select
+              aria-label="Dealer for new product"
               name="supplierId"
               className={field}
               required
@@ -67,11 +73,16 @@ export default function AdminProductForm({
                   {s.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           <label className="grid gap-2 text-xs font-medium">
             Existing product family
-            <select name="familyId" className={field} defaultValue="">
+            <Select
+              aria-label="Existing product family"
+              name="familyId"
+              className={field}
+              defaultValue=""
+            >
               <option value="">Independent product</option>
               {products
                 .filter((p) => !p.catalogOnly)
@@ -80,7 +91,7 @@ export default function AdminProductForm({
                     {p.name}
                   </option>
                 ))}
-            </select>
+            </Select>
           </label>
           {[
             ["price", "New case price (BDT)", 1],

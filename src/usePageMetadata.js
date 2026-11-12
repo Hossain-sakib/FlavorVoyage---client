@@ -1,3 +1,4 @@
+import siteImages from "./site-images.json";
 import { useEffect } from "react";
 const origin = "https://flavor-voyage.netlify.app";
 export function usePageMetadata(view, product, loading) {
@@ -49,7 +50,7 @@ export function usePageMetadata(view, product, loading) {
         ? product.image?.startsWith("/")
           ? origin + product.image
           : product.image
-        : `${origin}/images/stories/refresh.jpg`,
+        : siteImages["/images/stories/refresh.jpg"],
     );
     const canonical = document.head.querySelector('link[rel="canonical"]');
     if (canonical) canonical.href = url;

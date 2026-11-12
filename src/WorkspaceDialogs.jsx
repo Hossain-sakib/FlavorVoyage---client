@@ -1,3 +1,4 @@
+import Select from "./ui/Select";
 import { FiShoppingBag } from "react-icons/fi";
 import PropTypes from "prop-types";
 import { classes } from "./ui/classes";
@@ -330,7 +331,8 @@ export default function WorkspaceDialogs({ context }) {
                   <div className={classes("form-row")}>
                     <label>
                       I am a
-                      <select
+                      <Select
+                        aria-label="I am a"
                         name="role"
                         defaultValue={modal.role || "retailer"}
                       >
@@ -340,7 +342,7 @@ export default function WorkspaceDialogs({ context }) {
                         <option value="supplier">
                           Supplier — selling wholesale
                         </option>
-                      </select>
+                      </Select>
                     </label>
                     <label>
                       City
@@ -485,7 +487,8 @@ export default function WorkspaceDialogs({ context }) {
               {addresses.length > 0 && (
                 <label>
                   Use a saved address
-                  <select
+                  <Select
+                    aria-label="Use a saved address"
                     defaultValue=""
                     onChange={(e) => {
                       const a = addresses.find((a) => a.id === e.target.value);
@@ -501,7 +504,7 @@ export default function WorkspaceDialogs({ context }) {
                         {a.label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </label>
               )}
               <label>
@@ -634,18 +637,20 @@ export default function WorkspaceDialogs({ context }) {
               <div className={classes("form-row")}>
                 <label>
                   Category
-                  <select
+                  <Select
+                    aria-label="Category"
                     name="category"
                     defaultValue={modal.product?.category || "Soft drinks"}
                   >
                     {categories.slice(1).map((c) => (
                       <option key={c}>{c}</option>
                     ))}
-                  </select>
+                  </Select>
                 </label>
                 <label>
                   Product family
-                  <select
+                  <Select
+                    aria-label="Product family"
                     name="familyId"
                     defaultValue={modal.product?.familyId || ""}
                   >
@@ -657,7 +662,7 @@ export default function WorkspaceDialogs({ context }) {
                           {p.name}
                         </option>
                       ))}
-                  </select>
+                  </Select>
                 </label>
                 <label>
                   Unit size / variant
@@ -719,7 +724,8 @@ export default function WorkspaceDialogs({ context }) {
               </label>
               <label>
                 Visibility
-                <select
+                <Select
+                  aria-label="Visibility"
                   name="active"
                   defaultValue={
                     modal.product?.active === false ? "false" : "true"
@@ -727,7 +733,7 @@ export default function WorkspaceDialogs({ context }) {
                 >
                   <option value="true">Listed in marketplace</option>
                   <option value="false">Hidden from marketplace</option>
-                </select>
+                </Select>
               </label>
               <button disabled={busy} className={classes("button full-width")}>
                 {busy ? "Saving…" : "Save product"} <FiCheck />

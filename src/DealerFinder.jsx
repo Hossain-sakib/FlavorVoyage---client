@@ -1,3 +1,4 @@
+import Select from "./ui/Select";
 import { classes } from "./ui/classes";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -123,7 +124,8 @@ export default function DealerFinder({
       <div className={classes("dealer-tools")}>
         <label>
           Your area
-          <select
+          <Select
+            aria-label="Your area"
             value={area}
             onChange={(e) => {
               setArea(e.target.value);
@@ -131,7 +133,6 @@ export default function DealerFinder({
                 e.target.value ? areas[Number(e.target.value)].slice(1) : null,
               );
             }}
-            aria-label="Your area"
           >
             <option value="">Choose an area</option>
             {area === "current" && (
@@ -142,7 +143,7 @@ export default function DealerFinder({
                 {a[0]}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           Search dealers

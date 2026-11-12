@@ -1,3 +1,7 @@
+import AdminReports from "./AdminReports";
+import AdminFollowUps from "./AdminFollowUps";
+import AdminOperations from "./AdminOperations";
+import Select from "./ui/Select";
 import { useEffect, useState } from "react";
 import OperationsSummary from "./OperationsSummary";
 import ImageUpload from "./ImageUpload";
@@ -12,6 +16,9 @@ const tabs = [
   "Quotes",
   "Content",
   "Audit log",
+  "Reports",
+  "Follow-ups",
+  "Operations",
 ];
 const field =
   "w-full rounded-xl border border-line bg-surface px-3 py-3 text-sm";
@@ -81,11 +88,31 @@ export default function AdminDashboard() {
         sample feedback remain labeled; this is not an accounting or tax
         reporting system.
       </div>
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div className="lg:hidden">
+        <label className="grid gap-2 text-xs font-semibold">
+          Admin section
+          <Select
+            aria-label="Admin section"
+            value={tab}
+            onChange={(e) => {
+              setTab(e.target.value);
+              setSearch("");
+            }}
+          >
+            {tabs.map((name) => (
+              <option key={name}>{name}</option>
+            ))}
+          </Select>
+        </label>
+      </div>
+      <nav
+        aria-label="Admin sections"
+        className="hidden gap-2 rounded-2xl border border-line bg-surface p-2 lg:grid lg:grid-cols-4 xl:grid-cols-6"
+      >
         {tabs.map((name) => (
           <button
             key={name}
-            className={`shrink-0 rounded-xl px-4 py-3 text-sm font-semibold ${tab === name ? "bg-action text-on-action" : "border border-line bg-surface"}`}
+            className={`min-h-11 rounded-xl px-4 py-3 text-sm font-semibold ${tab === name ? "bg-action text-on-action" : "text-muted hover:bg-subtle"}`}
             onClick={() => {
               setTab(name);
               setSearch("");
@@ -94,7 +121,10 @@ export default function AdminDashboard() {
             {name}
           </button>
         ))}
-      </div>
+      </nav>
+      {tab === "Reports" && <AdminReports />}
+      {tab === "Follow-ups" && data && <AdminFollowUps contacts={data.users} />}
+      {tab === "Operations" && <AdminOperations />}
       {notice && (
         <p
           role="status"
@@ -272,7 +302,7 @@ export default function AdminDashboard() {
               </p>
               <label className="flex items-center gap-3 text-xs">
                 Stock view
-                <select
+                <Select
                   aria-label="Filter admin stock"
                   className={field}
                   value={stockFilter}
@@ -285,114 +315,132 @@ export default function AdminDashboard() {
                   <option value="available">Available to order</option>
                   <option value="low">Needs restocking</option>
                   <option value="inactive">Inactive</option>
-                </select>
+                </Select>
               </label>
             </div>
           )}
           {tab === "Products" && (
             <div className="grid gap-4 xl:grid-cols-2">
               {filteredProducts.slice(0, visibleCount).map((p) => (
-                <form
+                <details
                   key={p.id}
-                  className="space-y-4 rounded-2xl border border-line bg-surface p-5"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const v = Object.fromEntries(new FormData(e.currentTarget));
-                    mutate(`/products/${p.id}`, {
-                      price: Number(v.price),
-                      stock: Number(v.stock),
-                      moq: Number(v.moq),
-                      active: v.active === "on",
-                      ...Object.fromEntries(
-                        [
-                          "name",
-                          "brand",
-                          "company",
-                          "description",
-                          "flavor",
-                          "compositionNote",
-                          "preparationNote",
-                          "pack",
-                          "servingSize",
-                          "image",
-                        ]
-                          .filter((key) => v[key]?.trim())
-                          .map((key) => [key, v[key].trim()]),
-                      ),
-                    });
-                  }}
+                  className="min-w-0 rounded-2xl border border-line bg-surface"
                 >
-                  <h3 className="font-bold">{p.name}</h3>
-                  <p className="text-xs text-muted">
-                    {p.pack} ·{" "}
-                    {data.suppliers.find((s) => s.id === p.supplierId)?.name}
-                  </p>
-                  <div className="grid grid-cols-3 gap-3">
-                    {[
-                      ["price", "Case price", p.price],
-                      ["stock", "Stock", p.stock],
-                      ["moq", "MOQ", p.moq],
-                    ].map(([name, label, value]) => (
-                      <label className="grid gap-2 text-xs" key={name}>
-                        {label}
-                        <input
-                          className={field}
-                          name={name}
-                          type="number"
-                          min={name === "stock" ? 0 : 1}
-                          defaultValue={value}
-                          required
-                        />
-                      </label>
-                    ))}
-                  </div>
-                  <details className="rounded-xl bg-subtle p-4">
-                    <summary className="cursor-pointer text-xs font-semibold">
-                      Edit product information & image
-                    </summary>
-                    <div className="mt-4 grid gap-3">
+                  <summary className="flex min-h-11 cursor-pointer flex-wrap items-center justify-between gap-3 p-5">
+                    <span className="min-w-0">
+                      <strong className="block text-sm">Edit {p.name}</strong>
+                      <small className="mt-2 block text-xs text-muted">
+                        {p.pack} · {p.stock} cases
+                      </small>
+                    </span>
+                    <span className="text-sm font-semibold">
+                      {money(p.price)}{" "}
+                      <span className="text-xs text-muted">/ case ↓</span>
+                    </span>
+                  </summary>
+                  <form
+                    className="space-y-4 border-t border-line p-5"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const v = Object.fromEntries(
+                        new FormData(e.currentTarget),
+                      );
+                      mutate(`/products/${p.id}`, {
+                        price: Number(v.price),
+                        stock: Number(v.stock),
+                        moq: Number(v.moq),
+                        active: v.active === "on",
+                        ...Object.fromEntries(
+                          [
+                            "name",
+                            "brand",
+                            "company",
+                            "description",
+                            "flavor",
+                            "compositionNote",
+                            "preparationNote",
+                            "pack",
+                            "servingSize",
+                            "image",
+                          ]
+                            .filter((key) => v[key]?.trim())
+                            .map((key) => [key, v[key].trim()]),
+                        ),
+                      });
+                    }}
+                  >
+                    <h3 className="font-bold">{p.name}</h3>
+                    <p className="text-xs text-muted">
+                      {p.pack} ·{" "}
+                      {data.suppliers.find((s) => s.id === p.supplierId)?.name}
+                    </p>
+                    <div className="grid grid-cols-3 gap-3">
                       {[
-                        ["name", "Product name"],
-                        ["brand", "Brand"],
-                        ["company", "Company"],
-                        ["description", "Description"],
-                        ["flavor", "Flavor"],
-                        ["compositionNote", "Composition notes"],
-                        ["preparationNote", "Preparation notes"],
-                        ["pack", "Case packaging"],
-                        ["servingSize", "Unit size"],
-                        ["image", "Image URL"],
-                      ].map(([name, label]) => (
+                        ["price", "Case price", p.price],
+                        ["stock", "Stock", p.stock],
+                        ["moq", "MOQ", p.moq],
+                      ].map(([name, label, value]) => (
                         <label className="grid gap-2 text-xs" key={name}>
                           {label}
                           <input
                             className={field}
                             name={name}
-                            defaultValue={p[name] || ""}
+                            type="number"
+                            min={name === "stock" ? 0 : 1}
+                            defaultValue={value}
+                            required
                           />
                         </label>
                       ))}
-                      <ImageUpload />
                     </div>
-                  </details>
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs">
-                      <input
-                        className="mr-2"
-                        name="active"
-                        type="checkbox"
-                        defaultChecked={p.active}
-                      />{" "}
-                      Active listing
-                    </label>
-                    <button
-                      className="rounded-xl bg-action px-4 py-3 text-xs font-semibold text-on-action"
-                      disabled={busy}
-                    >
-                      Save product
-                    </button>
-                  </div>
-                </form>
+                    <details className="rounded-xl bg-subtle p-4">
+                      <summary className="cursor-pointer text-xs font-semibold">
+                        Edit product information & image
+                      </summary>
+                      <div className="mt-4 grid gap-3">
+                        {[
+                          ["name", "Product name"],
+                          ["brand", "Brand"],
+                          ["company", "Company"],
+                          ["description", "Description"],
+                          ["flavor", "Flavor"],
+                          ["compositionNote", "Composition notes"],
+                          ["preparationNote", "Preparation notes"],
+                          ["pack", "Case packaging"],
+                          ["servingSize", "Unit size"],
+                          ["image", "Image URL"],
+                        ].map(([name, label]) => (
+                          <label className="grid gap-2 text-xs" key={name}>
+                            {label}
+                            <input
+                              className={field}
+                              name={name}
+                              defaultValue={p[name] || ""}
+                            />
+                          </label>
+                        ))}
+                        <ImageUpload />
+                      </div>
+                    </details>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs">
+                        <input
+                          className="mr-2"
+                          name="active"
+                          type="checkbox"
+                          defaultChecked={p.active}
+                        />{" "}
+                        Active listing
+                      </label>
+                      <button
+                        className="rounded-xl bg-action px-4 py-3 text-xs font-semibold text-on-action"
+                        disabled={busy}
+                      >
+                        Save product
+                      </button>
+                    </div>
+                  </form>
+                </details>
               ))}
             </div>
           )}

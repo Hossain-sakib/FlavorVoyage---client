@@ -1,8 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 test("public website opens before the marketplace; drinks, favorites and details work without login", async ({
   page,
 }) => {
+  await page.route("**/api/site-content", (route) =>
+    route.fulfill({
+      json: {
+        contactEmail: "support@example.com",
+        supportPhone: "+880 1700 000000",
+      },
+    }),
+  );
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
@@ -52,6 +60,16 @@ test("public website opens before the marketplace; drinks, favorites and details
     .getByRole("button", { name: "Back to the website", exact: true })
     .click();
   await expect(page.locator(".fv-website")).toBeVisible();
+  await expect(
+    page
+      .locator(".fv-footer")
+      .getByRole("link", { name: "support@example.com", exact: true }),
+  ).toHaveAttribute("href", "mailto:support@example.com");
+  await expect(
+    page
+      .locator(".fv-footer")
+      .getByRole("link", { name: "+880 1700 000000", exact: true }),
+  ).toHaveAttribute("href", "tel:+8801700000000");
   expect(errors).toEqual([]);
 });
 

@@ -64,3 +64,28 @@ widths. Set `FV_CAPTURE_DIR` to an existing writable directory to capture audit
 screenshots. Product photos use `object-contain`; official logo images keep a white
 canvas for legibility in either theme. Inventory and comparison tables scroll within
 their own regions.
+
+## Admin workflows and shared controls
+
+Reports provides date-filtered order activity in Asia/Dhaka time, dealer and
+product summaries, and CSV exports. Demo orders are excluded by default. Follow-ups
+tracks contact-linked tasks, due dates and completion. Operations exposes protected
+health checks, backup status and manual private snapshot creation; restore is an
+operator-only action. Product editors collapse into compact catalog cards, and
+mobile administration uses a section selector rather than a long tab strip.
+
+`src/ui/Select.jsx` is the shared dropdown control for filters and dashboard forms.
+It keeps native keyboard/screen-reader behavior with consistent spacing, focus,
+disabled states and a decorative chevron. Theme selection remains a single button.
+
+All 64 site image assets are uploaded to Cloudinary. Products use their database
+image URL; company logos are configured in `companies.json`, and the three shared
+brand/lifestyle URLs live in `src/site-images.json`. The complete public upload
+manifest is in `scripts/site-images.json` and is not bundled as a product catalog.
+Local originals remain for offline browser fixtures. `tests/fixtures.js` routes
+known CDN URLs to those exact originals without bypassing TLS; live CDN delivery is
+verified separately over HTTPS. Re-upload owned assets with the server's
+`scripts/upload-site-images.py`, using private hosting configuration.
+
+CI uses the Chrome installation included in the pinned Ubuntu 24.04 runner to
+avoid a fresh apt/browser-dependency download on every test run.

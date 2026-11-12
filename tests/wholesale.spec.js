@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 // Exercise checkout, quote and inventory dialogs with an explicit dark preference.
 test.beforeEach(async ({ page }) => {

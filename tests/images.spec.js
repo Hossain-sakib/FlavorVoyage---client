@@ -1,5 +1,5 @@
 import { setTheme } from "./theme";
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 test("all discoverable packshots and company logos load without cropping", async ({
   page,
 }) => {

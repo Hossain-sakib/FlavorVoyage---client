@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 const headers = { Origin: "http://127.0.0.1:5174" };
 test("company, distributor, size and ingredient filters work together and comparisons show real pack details", async ({
   page,
