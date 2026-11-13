@@ -54,7 +54,7 @@ See the server's `PRODUCTION_READINESS.md` for operational limits and remaining 
 
 ## Portfolio-only live previews
 
-Public pages may be framed only by `https://sakib-studio.netlify.app`. Private/admin/account/API routes retain `X-Frame-Options: DENY` and `frame-ancestors 'none'`. Keep these exceptions when regenerating Netlify headers. This permits the owner’s responsive live portfolio previews without opening the site to arbitrary framing.
+All pages may be framed only by `https://sakib-studio.netlify.app`, including dashboard paths. `frame-ancestors` contains exactly that HTTPS origin, without wildcard or self origins. Conflicting `X-Frame-Options` headers are removed. Other CSP directives, security headers and private-route cache controls are preserved. Framing permission does not grant authenticated access.
 
 ## Layout checks
 
